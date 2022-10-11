@@ -9,24 +9,16 @@
   grid-template-columns: 2fr 10fr;
 }
 
-.header {
-  grid-area: h;
-  background-color: chartreuse;
-}
-.header img {
-  width: 40px;
-}
 
-.nav {
-  grid-area: n;
-  background-color: burlywood;
-}
 
-.content {
-  grid-area: c;
-  background-color: darkgoldenrod;
-}
 
-.content img {
-  width: 100%;
-}
+
+
+
+
+
+
+
+
+
+
