@@ -3,10 +3,10 @@
     background-color: rosybrown;
 }
 
-.item {
-    color: black;
+.item a{
+    color: white;
     text-decoration: none;
 }
-.item.active {
+.item a.activeLink {
     color: gold;
 }
