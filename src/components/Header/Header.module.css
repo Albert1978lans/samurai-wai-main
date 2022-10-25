@@ -4,6 +4,7 @@
 
 .header img {
     width: 40px;
+    margin: 10px;
 }
 .header {
     background-color: green;
