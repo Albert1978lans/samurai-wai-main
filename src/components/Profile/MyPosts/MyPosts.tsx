@@ -2,20 +2,13 @@
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
+import {ProfileStateType} from "../../../index";
 
-type PostType = {
-    id: number,
-    message: string,
-    likesCount: number
-}
+type MyPostsPropsType = ProfileStateType
 
-export const MyPosts = () => {
-    let  posts: Array<PostType> = [
-        {id: 1, message: 'Hi, hou are you', likesCount: 5},
-        {id: 2, message: 'It\'s my first post', likesCount: 17},
-    ]
 
-    let postsElements = posts.map(p => <Post message={p.message} count={p.likesCount}/>)
+export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
+    let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} count={p.likesCount}/>)
 
     return (
         <div className={s.myPosts}>
