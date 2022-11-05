@@ -9,7 +9,8 @@ import {ProfileStateType} from "../../redux/state";
 
 
 type ProfilePropsType = {
-    profileState: ProfileStateType
+    profileState: ProfileStateType,
+    addPost: (text: string)=>void
 }
 
 const Profile: React.FC<ProfilePropsType> = (props) => {
@@ -17,7 +18,7 @@ const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <div className={s.content}>
             <ProfileInfo/>
-            <MyPosts posts={props.profileState.posts}/>
+            <MyPosts posts={props.profileState.posts} addPost={props.addPost}/>
         </div>
     )
 }
