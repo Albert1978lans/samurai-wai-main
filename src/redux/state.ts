@@ -1,4 +1,6 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = () => {
+    console.log('Change')
+}
 
 export type PostItemType = {
     id: number,
@@ -64,12 +66,16 @@ export const addPost = () => {
     }
     state.profileState.posts.push(newPost)
     state.profileState.valueTextarea = ''
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 export const changeTextarea = (valueTextarea: string) => {
     state.profileState.valueTextarea = valueTextarea
-    rerenderEntireTree(state)
+    rerenderEntireTree()
+}
+
+export const subscribe = (observer: ()=>void) => {
+    rerenderEntireTree = observer
 }
 
 export default state
