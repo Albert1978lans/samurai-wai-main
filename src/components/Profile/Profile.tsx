@@ -2,7 +2,7 @@ import React from "react";
 import s from './ProfileInfo.module.css'
 import {MyPosts} from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {ProfileStateType} from "../../redux/state";
+import {changeTextarea, ProfileStateType} from "../../redux/state";
 
 
 
@@ -10,7 +10,8 @@ import {ProfileStateType} from "../../redux/state";
 
 type ProfilePropsType = {
     profileState: ProfileStateType,
-    addPost: (text: string)=>void
+    addPost: ()=>void,
+    changeTextarea: (text: string) => void
 }
 
 const Profile: React.FC<ProfilePropsType> = (props) => {
@@ -18,7 +19,11 @@ const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <div className={s.content}>
             <ProfileInfo/>
-            <MyPosts posts={props.profileState.posts} addPost={props.addPost}/>
+            <MyPosts
+                stateMyPosts={props.profileState}
+                addPost={props.addPost}
+                changeTextarea={changeTextarea}
+            />
         </div>
     )
 }

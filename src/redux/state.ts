@@ -15,7 +15,8 @@ export  type MessageItemType = {
 }
 
 export type ProfileStateType = {
-    posts: Array<PostItemType>
+    posts: Array<PostItemType>,
+    valueTextarea: string
 }
 export  type DialogsStateType = {
     dialogs: Array<DialogItemType>,
@@ -32,7 +33,8 @@ let state: StateType = {
         posts: [
             {id: 1, message: 'Hi, hou are you', likesCount: 5},
             {id: 2, message: 'It\'s my first post', likesCount: 17}
-        ]
+        ],
+        valueTextarea: ''
     },
     dialogsState: {
         dialogs: [
@@ -54,10 +56,20 @@ let state: StateType = {
     }
 }
 
-export const addPost = (text: string) => {
-    let newPost = {id: 5, message: text, likesCount: 0}
+export const addPost = () => {
+    let newPost = {
+        id: 5,
+        message: state.profileState.valueTextarea,
+        likesCount: 0
+    }
     state.profileState.posts.push(newPost)
+    state.profileState.valueTextarea = ''
     rerenderEntireTree(state)
 }
 
- export default state
+export const changeTextarea = (valueTextarea: string) => {
+    state.profileState.valueTextarea = valueTextarea
+    rerenderEntireTree(state)
+}
+
+export default state
