@@ -8,15 +8,14 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {changeTextarea, StateType} from "./redux/state";
+import {StoreType} from "./redux/state";
 
 type AppPropsType = {
-    state: StateType,
-    addPost: () => void
-    changeTextarea: (text: string) => void
+    store: StoreType
 }
 
 function App(props: AppPropsType) {
+    let state = props.store.getState()
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -26,13 +25,13 @@ function App(props: AppPropsType) {
                     <Route
                         path={'/profile'}
                         render={() => <Profile
-                                        profileState={props.state.profileState}
-                                        addPost={props.addPost}
-                                        changeTextarea={changeTextarea}
+                                        profileState={state.profileState}
+                                        addPost={props.store.addPost.bind(props.store)}
+                                        changeTextarea={props.store.changeTextarea.bind(props.store)}
                         />
                         }
                     />
-                    <Route path={'/dialogs'} render={() => <Dialogs dialogsState={props.state.dialogsState}/>}/>
+                    <Route path={'/dialogs'} render={() => <Dialogs dialogsState={state.dialogsState}/>}/>
                     <Route path={'/news'} component={News}/>
                     <Route path={'/music'} component={Music}/>
                     <Route path={'/settings'} component={Settings}/>
@@ -43,3 +42,4 @@ function App(props: AppPropsType) {
 }
 
 export default App;
+
