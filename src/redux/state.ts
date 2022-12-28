@@ -1,3 +1,4 @@
+import actions from "redux-form/lib/actions";
 
 export type PostItemType = {
     id: number,
@@ -31,11 +32,22 @@ export type StateType = {
 export type StoreType = {
     _state: StateType
     _onChange: ()=>void
-    changeTextarea: (valueTextarea: string)=>void
-    addPost: ()=>void
+    // changeTextarea: (valueTextarea: string)=>void
+    // addPost: ()=>void
     subscribe: (observer: ()=>void)=>void
     getState: ()=>StateType
+    dispatch: (action: ActionsTypes)=>void
 }
+
+type AddPostActionType = {
+    type: 'ADD-POST'
+}
+type ChangeTextareaActionType = {
+    type: 'CHANGE-TEXTAREA'
+    valueTextarea: string
+}
+
+export type ActionsTypes = AddPostActionType | ChangeTextareaActionType
 
 const store: StoreType = {
     _state: {
@@ -66,20 +78,6 @@ const store: StoreType = {
         }
     },
 
-    changeTextarea(valueTextarea: string)  {
-        this._state.profileState.valueTextarea = valueTextarea
-        this._onChange()                                 //---?
-    },
-    addPost() {
-        let newPost = {
-            id: 5,
-            message: this._state.profileState.valueTextarea,
-            likesCount: 0
-        }
-        this._state.profileState.posts.push(newPost)
-        this._state.profileState.valueTextarea = ''
-        this._onChange()
-    },
     _onChange()  {
         console.log('Change')
     },
@@ -88,6 +86,22 @@ const store: StoreType = {
     },
     getState() {
         return this._state
+    },
+
+    dispatch(actions) {
+        if (actions.type === 'ADD-POST') {
+            let newPost = {
+                id: 5,
+                message: this._state.profileState.valueTextarea,
+                likesCount: 0
+            }
+            this._state.profileState.posts.push(newPost)
+            this._state.profileState.valueTextarea = ''
+            this._onChange()
+        } else if (actions.type === 'CHANGE-TEXTAREA') {
+            this._state.profileState.valueTextarea = actions.valueTextarea
+            this._onChange()
+        }
     }
 }
 

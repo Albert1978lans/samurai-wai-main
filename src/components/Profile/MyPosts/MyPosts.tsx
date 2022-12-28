@@ -2,12 +2,14 @@
 import React, {ChangeEvent} from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {PostItemType, ProfileStateType} from "../../../redux/state";
+import {
+    ActionsTypes,
+    ProfileStateType
+} from "../../../redux/state";
 
 type MyPostsPropsType = {
     stateMyPosts: ProfileStateType,
-    addPost: ()=>void,
-    changeTextarea: (text: string) => void
+    dispatch: (action: ActionsTypes)=>void
 }
 
 
@@ -17,12 +19,14 @@ export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const buttonAddPost = () => {
-        props.addPost()
+        props.dispatch({type: 'ADD-POST'})
     }
 
     const onChangeTextarea = () => {
         let text = newPostElement.current?.value
-        if (text)  {props.changeTextarea(text)}
+        if (text)  {
+            props.dispatch({type: "CHANGE-TEXTAREA", valueTextarea: text})
+        }
     }
 
 
