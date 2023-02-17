@@ -91,7 +91,7 @@ const store: StoreType = {
     dispatch(actions) {
         if (actions.type === 'ADD-POST') {
             let newPost = {
-                id: 5,
+                id: new Date().getTime(),
                 message: this._state.profileState.valueTextarea,
                 likesCount: 0
             }
@@ -103,6 +103,16 @@ const store: StoreType = {
             this._onChange()
         }
     }
+}
+
+export const changeTextareaActionCreator = (text: string):ChangeTextareaActionType => {
+    return {type: "CHANGE-TEXTAREA",
+        valueTextarea: text
+    }
+}
+
+export const addPostActionCreator = ():AddPostActionType => {
+    return {type: 'ADD-POST'}
 }
 
 // window.store = store
