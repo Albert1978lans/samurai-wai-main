@@ -1,4 +1,4 @@
-import actions from "redux-form/lib/actions";
+// import actions from "redux-form/lib/actions";
 
 export type PostItemType = {
     id: number,
@@ -39,15 +39,18 @@ export type StoreType = {
     dispatch: (action: ActionsTypes)=>void
 }
 
-type AddPostActionType = {
-    type: 'ADD-POST'
-}
-type ChangeTextareaActionType = {
-    type: 'CHANGE-TEXTAREA'
-    valueTextarea: string
-}
+// type AddPostActionType = {
+//     type: 'ADD-POST'
+// }
+// type ChangeTextareaActionType = {
+//     type: 'CHANGE-TEXTAREA'
+//     valueTextarea: string
+// }
 
-export type ActionsTypes = AddPostActionType | ChangeTextareaActionType
+// type AddPostActionType = ReturnType<typeof addPostActionCreator>
+// type ChangeTextareaActionType = ReturnType<typeof changeTextareaActionCreator>
+
+export type ActionsTypes = ReturnType<typeof addPostActionCreator> | ReturnType<typeof changeTextareaActionCreator>
 
 const store: StoreType = {
     _state: {
@@ -105,14 +108,14 @@ const store: StoreType = {
     }
 }
 
-export const changeTextareaActionCreator = (text: string):ChangeTextareaActionType => {
+export const changeTextareaActionCreator = (text: string) => {
     return {type: "CHANGE-TEXTAREA",
         valueTextarea: text
-    }
+    } as const
 }
 
-export const addPostActionCreator = ():AddPostActionType => {
-    return {type: 'ADD-POST'}
+export const addPostActionCreator = () => {
+    return {type: 'ADD-POST'} as const
 }
 
 // window.store = store
