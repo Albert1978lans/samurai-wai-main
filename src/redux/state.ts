@@ -1,5 +1,8 @@
 // import actions from "redux-form/lib/actions";
 
+import {message} from "antd";
+import exp from "constants";
+
 export type PostItemType = {
     id: number,
     message: string,
@@ -21,6 +24,7 @@ export type ProfileStateType = {
 export  type DialogsStateType = {
     dialogs: Array<DialogItemType>,
     messages: Array<MessageItemType>
+    valueTextareaMessage: string
 }
 
 export type StateType = {
@@ -50,7 +54,10 @@ export type StoreType = {
 // type AddPostActionType = ReturnType<typeof addPostActionCreator>
 // type ChangeTextareaActionType = ReturnType<typeof changeTextareaActionCreator>
 
-export type ActionsTypes = ReturnType<typeof addPostActionCreator> | ReturnType<typeof changeTextareaActionCreator>
+export type ActionsTypes = ReturnType<typeof addPostActionCreator>
+    | ReturnType<typeof changeTextareaActionCreator>
+    | ReturnType<typeof addMessageActionsCreator>
+    | ReturnType<typeof changeTextareaMessageAC>
 
 const store: StoreType = {
     _state: {
@@ -77,7 +84,8 @@ const store: StoreType = {
                 {id: 4, message: 'Yo'},
                 {id: 5, message: 'Bye'},
                 {id: 6, message: 'Hello'},
-            ]
+            ],
+            valueTextareaMessage : ''
         }
     },
 
@@ -104,8 +112,30 @@ const store: StoreType = {
         } else if (actions.type === 'CHANGE-TEXTAREA') {
             this._state.profileState.valueTextarea = actions.valueTextarea
             this._onChange()
+        } else if (actions.type === 'ADD-DIALOGS-MESSAGES') {
+            let body = this._state.dialogsState.valueTextareaMessage
+            this._state.dialogsState.valueTextareaMessage = ''
+            let message = {id: new Date().getTime(), message: body}
+            this._state.dialogsState.messages.push(message)
+            this._onChange()
+        } else if (actions.type === 'CHANGE-TEXTAREA-MESSAGES') {
+            this._state.dialogsState.valueTextareaMessage = actions.valueTextarea
+            this._onChange()
         }
     }
+}
+
+export const changeTextareaMessageAC = (text: string) => {
+    return {
+        type: 'CHANGE-TEXTAREA-MESSAGES',
+        valueTextarea: text
+    } as const
+}
+
+export  const addMessageActionsCreator = () => {
+    return{
+        type: 'ADD-DIALOGS-MESSAGES'
+    } as const
 }
 
 export const changeTextareaActionCreator = (text: string) => {

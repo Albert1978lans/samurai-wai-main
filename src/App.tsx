@@ -30,7 +30,10 @@ function App(props: AppPropsType) {
                         />
                         }
                     />
-                    <Route path={'/dialogs'} render={() => <Dialogs dialogsState={state.dialogsState}/>}/>
+                    <Route path={'/dialogs'} render={() => <Dialogs
+                        dialogsState={state.dialogsState}
+                        dispatch={props.store.dispatch.bind(store)}
+                    />}/>
                     <Route path={'/news'} component={News}/>
                     <Route path={'/music'} component={Music}/>
                     <Route path={'/settings'} component={Settings}/>
