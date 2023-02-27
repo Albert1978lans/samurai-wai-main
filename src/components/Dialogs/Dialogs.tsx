@@ -2,7 +2,12 @@ import s from './Dialogs.module.css'
 import React, {ChangeEvent} from "react";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {MessageItem} from "./MessageItem/MessageItem";
-import {ActionsTypes, addMessageActionsCreator, changeTextareaMessageAC, DialogsStateType} from "../../redux/state";
+import {
+    addMessageActionsCreator,
+    changeTextareaMessageAC,
+    }
+    from "../../redux/dialogs-reducer";
+import {ActionsTypes, DialogsStateType} from "../../redux/state";
 
 
 

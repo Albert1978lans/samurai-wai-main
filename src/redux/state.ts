@@ -1,7 +1,11 @@
-// import actions from "redux-form/lib/actions";
-
-import {message} from "antd";
-import exp from "constants";
+import profileReducer, {
+    addPostActionCreator,
+    changeTextareaActionCreator
+} from "./profile-reducer";
+import dialogsReducer, {
+    addMessageActionsCreator,
+    changeTextareaMessageAC
+} from "./dialogs-reducer";
 
 export type PostItemType = {
     id: number,
@@ -36,23 +40,10 @@ export type StateType = {
 export type StoreType = {
     _state: StateType
     _onChange: ()=>void
-    // changeTextarea: (valueTextarea: string)=>void
-    // addPost: ()=>void
     subscribe: (observer: ()=>void)=>void
     getState: ()=>StateType
     dispatch: (action: ActionsTypes)=>void
 }
-
-// type AddPostActionType = {
-//     type: 'ADD-POST'
-// }
-// type ChangeTextareaActionType = {
-//     type: 'CHANGE-TEXTAREA'
-//     valueTextarea: string
-// }
-
-// type AddPostActionType = ReturnType<typeof addPostActionCreator>
-// type ChangeTextareaActionType = ReturnType<typeof changeTextareaActionCreator>
 
 export type ActionsTypes = ReturnType<typeof addPostActionCreator>
     | ReturnType<typeof changeTextareaActionCreator>
@@ -100,53 +91,17 @@ const store: StoreType = {
     },
 
     dispatch(actions) {
-        if (actions.type === 'ADD-POST') {
-            let newPost = {
-                id: new Date().getTime(),
-                message: this._state.profileState.valueTextarea,
-                likesCount: 0
-            }
-            this._state.profileState.posts.push(newPost)
-            this._state.profileState.valueTextarea = ''
-            this._onChange()
-        } else if (actions.type === 'CHANGE-TEXTAREA') {
-            this._state.profileState.valueTextarea = actions.valueTextarea
-            this._onChange()
-        } else if (actions.type === 'ADD-DIALOGS-MESSAGES') {
-            let body = this._state.dialogsState.valueTextareaMessage
-            this._state.dialogsState.valueTextareaMessage = ''
-            let message = {id: new Date().getTime(), message: body}
-            this._state.dialogsState.messages.push(message)
-            this._onChange()
-        } else if (actions.type === 'CHANGE-TEXTAREA-MESSAGES') {
-            this._state.dialogsState.valueTextareaMessage = actions.valueTextarea
-            this._onChange()
-        }
+
+        this._state.profileState = profileReducer(this._state.profileState, actions)
+        this._state.dialogsState = dialogsReducer(this._state.dialogsState, actions)
+
+        this._onChange()
+
+
     }
 }
 
-export const changeTextareaMessageAC = (text: string) => {
-    return {
-        type: 'CHANGE-TEXTAREA-MESSAGES',
-        valueTextarea: text
-    } as const
-}
 
-export  const addMessageActionsCreator = () => {
-    return{
-        type: 'ADD-DIALOGS-MESSAGES'
-    } as const
-}
-
-export const changeTextareaActionCreator = (text: string) => {
-    return {type: "CHANGE-TEXTAREA",
-        valueTextarea: text
-    } as const
-}
-
-export const addPostActionCreator = () => {
-    return {type: 'ADD-POST'} as const
-}
 
 // window.store = store
 
