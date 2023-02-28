@@ -1,12 +1,18 @@
-import {ActionsTypes, ProfileStateType} from "./state";
+import {ActionsTypes, ProfileStateType} from "./store";
 
 const ADD_POST = 'ADD-POST'
 const CHANGE_TEXTAREA = 'CHANGE-TEXTAREA'
 
+let initialState: ProfileStateType = {
+    posts: [
+        {id: 1, message: 'Hi, hou are you', likesCount: 5},
+        {id: 2, message: 'It\'s my first post', likesCount: 17}
+    ],
+    valueTextarea: ''
+}
 
-
-const profileReducer = (state: ProfileStateType, actions: ActionsTypes): ProfileStateType => {
-
+const profileReducer = (state: ProfileStateType = initialState, actions: ActionsTypes): ProfileStateType => {
+    // debugger
     switch (actions.type) {
         case ADD_POST:
             let newPost = {

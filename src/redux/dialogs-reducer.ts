@@ -1,11 +1,30 @@
-import {ActionsTypes, DialogsStateType} from "./state";
+import {ActionsTypes, DialogsStateType} from "./store";
 
 
 const ADD_DIALOGS_MESSAGES = 'ADD-DIALOGS-MESSAGES'
 const CHANGE_TEXTAREA_MESSAGES = 'CHANGE-TEXTAREA-MESSAGES'
 
+let initialState: DialogsStateType = {
+    dialogs: [
+        {id: 1, name: 'Dimych'},
+        {id: 2, name: 'Andrey'},
+        {id: 3, name: 'Sveta'},
+        {id: 4, name: 'Sacha'},
+        {id: 5, name: 'Viktor'},
+        {id: 6, name: 'Valera'},
+    ],
+    messages: [
+        {id: 1, message: 'Hi'},
+        {id: 2, message: 'How is your it-kamasutra'},
+        {id: 3, message: 'Yo'},
+        {id: 4, message: 'Yo'},
+        {id: 5, message: 'Bye'},
+        {id: 6, message: 'Hello'},
+    ],
+    valueTextareaMessage : ''
+}
 
-const dialogsReducer = (state: DialogsStateType, actions: ActionsTypes): DialogsStateType => {
+const dialogsReducer = (state: DialogsStateType = initialState, actions: ActionsTypes): DialogsStateType => {
 
     switch (actions.type) {
         case ADD_DIALOGS_MESSAGES:

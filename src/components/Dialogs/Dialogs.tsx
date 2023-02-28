@@ -7,7 +7,7 @@ import {
     changeTextareaMessageAC,
     }
     from "../../redux/dialogs-reducer";
-import {ActionsTypes, DialogsStateType} from "../../redux/state";
+import {ActionsTypes, DialogsStateType} from "../../redux/store";
 
 
 

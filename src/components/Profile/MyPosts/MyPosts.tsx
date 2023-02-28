@@ -5,7 +5,7 @@ import {Post} from "./Post/Post";
 import {
      addPostActionCreator, changeTextareaActionCreator
 } from "../../../redux/profile-reducer";
-import {ActionsTypes, ProfileStateType} from "../../../redux/state";
+import {ActionsTypes, ProfileStateType} from "../../../redux/store";
 
 type MyPostsPropsType = {
     stateMyPosts: ProfileStateType,
@@ -24,6 +24,7 @@ export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     }
 
     const onChangeTextarea = () => {
+        debugger
         let text = newPostElement.current?.value
         if (text)  {
             props.dispatch(changeTextareaActionCreator(text))

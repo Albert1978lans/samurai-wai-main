@@ -1,6 +1,6 @@
 import s from "../Dialogs.module.css";
 import React from "react";
-import {MessageItemType} from "../../../redux/state";
+import {MessageItemType} from "../../../redux/store";
 
 type MessageItemPropsType = MessageItemType
 
