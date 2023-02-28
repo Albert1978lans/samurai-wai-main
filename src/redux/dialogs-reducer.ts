@@ -5,7 +5,7 @@ const ADD_DIALOGS_MESSAGES = 'ADD-DIALOGS-MESSAGES'
 const CHANGE_TEXTAREA_MESSAGES = 'CHANGE-TEXTAREA-MESSAGES'
 
 
-const dialogsReducer = (state: DialogsStateType, actions: ActionsTypes) => {
+const dialogsReducer = (state: DialogsStateType, actions: ActionsTypes): DialogsStateType => {
 
     switch (actions.type) {
         case ADD_DIALOGS_MESSAGES:

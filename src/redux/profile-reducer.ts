@@ -5,7 +5,7 @@ const CHANGE_TEXTAREA = 'CHANGE-TEXTAREA'
 
 
 
-const profileReducer = (state: ProfileStateType, actions: ActionsTypes) => {
+const profileReducer = (state: ProfileStateType, actions: ActionsTypes): ProfileStateType => {
 
     switch (actions.type) {
         case ADD_POST:
