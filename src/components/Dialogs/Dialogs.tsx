@@ -2,30 +2,28 @@ import s from './Dialogs.module.css'
 import React, {ChangeEvent} from "react";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {MessageItem} from "./MessageItem/MessageItem";
-import {
-    addMessageActionsCreator,
-    changeTextareaMessageAC,
-    }
-    from "../../redux/dialogs-reducer";
-import {ActionsTypes, DialogsStateType} from "../../redux/store";
+import {DialogItemType, MessageItemType} from "../../redux/store";
 
 
 
 type DialogsPropsType = {
-    dialogsState: DialogsStateType
-    dispatch: (action: ActionsTypes)=>void
+    dialogs: Array<DialogItemType>
+    messages: Array<MessageItemType>
+    valueTextarea: string
+    sendMessage: () => void
+    updateTextarea: (text: string) => void
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
-    let dialogsElements = props.dialogsState.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
-    let messagesElements = props.dialogsState.messages.map(m => <MessageItem key={m.id} message={m.message} id={m.id}/>)
+    let dialogsElements = props.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
+    let messagesElements = props.messages.map(m => <MessageItem key={m.id} message={m.message} id={m.id}/>)
 
     const sandMessage =() => {
-        props.dispatch(addMessageActionsCreator())
+        props.sendMessage()
     }
 
     const changeTextarea = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(changeTextareaMessageAC(e.currentTarget.value))
+        props.updateTextarea(e.currentTarget.value)
     }
 
     return (
@@ -40,7 +38,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
                     {messagesElements}
                 </div>
                 <div>
-                    <textarea value={props.dialogsState.valueTextareaMessage} onChange={changeTextarea}></textarea>
+                    <textarea value={props.valueTextarea} onChange={changeTextarea}></textarea>
                 </div>
                 <div>
                     <button onClick={sandMessage}>Sand</button>
