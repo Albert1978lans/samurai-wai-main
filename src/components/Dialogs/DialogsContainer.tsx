@@ -6,31 +6,41 @@ import {
     }
     from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
-import {StoreType} from "../../redux/redux-store";
+import StoreContext from "../../StoreContext";
 
 
 
-type DialogsContainerPropsType = {
-    store: StoreType
+
+
+export const DialogsContainer = () => {
+
+
+
+    return (
+        <StoreContext.Consumer>
+            {
+                (store) => {
+                    let state = store.getState()
+
+                    const sandMessage =() => {
+                        store.dispatch(addMessageActionsCreator())
+                    }
+
+                    const changeTextarea = (text: string) => {
+                        store.dispatch(changeTextareaMessageAC(text))
+                    }
+                    return (
+                        <Dialogs
+                            dialogs={state.dialogsState.dialogs}
+                            messages={state.dialogsState.messages}
+                            valueTextarea ={state.dialogsState.valueTextareaMessage}
+                            sendMessage={sandMessage}
+                            updateTextarea={changeTextarea}
+                        />
+                    )
+                }
+            }
+        </StoreContext.Consumer>
+    )
 }
 
-export const DialogsContainer: React.FC<DialogsContainerPropsType> = (props) => {
-
-    let state = props.store.getState()
-
-    const sandMessage =() => {
-        props.store.dispatch(addMessageActionsCreator())
-    }
-
-    const changeTextarea = (text: string) => {
-        props.store.dispatch(changeTextareaMessageAC(text))
-    }
-
-    return <Dialogs
-        dialogs={state.dialogsState.dialogs}
-        messages={state.dialogsState.messages}
-        valueTextarea ={state.dialogsState.valueTextareaMessage}
-        sendMessage={sandMessage}
-        updateTextarea={changeTextarea}
-    />
-}

@@ -3,31 +3,38 @@ import {
     addPostActionCreator, changeTextareaActionCreator
 } from "../../../redux/profile-reducer";
 import {MyPosts} from "./MyPosts";
-import {StoreType} from "../../../redux/redux-store";
+import StoreContext from "../../../StoreContext";
 
-type MyPostsPropsType = {
-    store: StoreType
+
+
+
+export const MyPostsContainer = () => {
+    return (
+        <StoreContext.Consumer>
+            {
+                (store) => {
+
+                    const state = store.getState()
+
+                    const addPost = () => {
+                        store.dispatch(addPostActionCreator())
+                    }
+
+                    const onChangeTextarea = (text: string) => {
+                        store.dispatch(changeTextareaActionCreator(text))
+
+                    }
+                    return (
+                        <MyPosts
+                            posts={state.profileState.posts}
+                            valueTextarea={state.profileState.valueTextarea}
+                            addPost={addPost}
+                            upDateTextarea={onChangeTextarea}
+                        />
+                    )
+                }
+            }
+        </StoreContext.Consumer>
+    )
 }
 
-
-export const MyPostsContainer: React.FC<MyPostsPropsType> = (props) => {
-
-    let state = props.store.getState().profileState
-
-    const addPost = () => {
-        props.store.dispatch(addPostActionCreator())
-    }
-
-    const onChangeTextarea = (text: string) => {
-        props.store.dispatch(changeTextareaActionCreator(text))
-
-    }
-
-
-    return <MyPosts
-        posts={state.posts}
-        valueTextarea={state.valueTextarea}
-        addPost={addPost}
-        upDateTextarea={onChangeTextarea}
-    />
-}

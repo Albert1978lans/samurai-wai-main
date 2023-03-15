@@ -9,8 +9,8 @@ let reducers = combineReducers({
     dialogsState: dialogsReducer
 })
 
-export type ReducesType = typeof reducers
-export type AppsStateType = ReturnType<ReducesType>
+// export type ReducesType = typeof reducers
+// export type AppsStateType = ReturnType<ReducesType>
 
 
 
