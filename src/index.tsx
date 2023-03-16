@@ -1,8 +1,20 @@
 import React from 'react';
 import './index.css';
-import {renderTree} from "./render";
 import store from "./redux/redux-store";
+import {Provider} from "react-redux";
+import App from "./App";
+import ReactDOM from "react-dom";
 
-store.subscribe(renderTree)
-renderTree()
+// store.subscribe(renderTree)
+// renderTree()
 
+ReactDOM.render(
+    <React.StrictMode>
+
+        <Provider store={store}>
+            <App/>
+        </Provider>
+
+    </React.StrictMode>,
+    document.getElementById('root')
+)

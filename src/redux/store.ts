@@ -1,9 +1,9 @@
 import profileReducer, {
-    addPostActionCreator,
-    changeTextareaActionCreator
+    addPostAC,
+    changeTextareaAC
 } from "./profile-reducer";
 import dialogsReducer, {
-    addMessageActionsCreator,
+    addMessageAC,
     changeTextareaMessageAC
 } from "./dialogs-reducer";
 
@@ -45,9 +45,9 @@ export type StoreType = {
     dispatch: (action: ActionsTypes)=>void
 }
 
-export type ActionsTypes = ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof changeTextareaActionCreator>
-    | ReturnType<typeof addMessageActionsCreator>
+export type ActionsTypes = ReturnType<typeof addPostAC>
+    | ReturnType<typeof changeTextareaAC>
+    | ReturnType<typeof addMessageAC>
     | ReturnType<typeof changeTextareaMessageAC>
 
 const store: StoreType = {
@@ -90,7 +90,7 @@ const store: StoreType = {
         return this._state
     },
 
-    dispatch(actions) {
+    dispatch(actions: any) {
 
         this._state.profileState = profileReducer(this._state.profileState, actions)
         this._state.dialogsState = dialogsReducer(this._state.dialogsState, actions)

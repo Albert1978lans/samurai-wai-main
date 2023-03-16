@@ -1,10 +1,24 @@
-import {ActionsTypes, DialogsStateType} from "./store";
-
 
 const ADD_DIALOGS_MESSAGES = 'ADD-DIALOGS-MESSAGES'
 const CHANGE_TEXTAREA_MESSAGES = 'CHANGE-TEXTAREA-MESSAGES'
 
-let initialState: DialogsStateType = {
+export type DialogType = {
+    id: number
+    name: string
+}
+
+export type MessageType = {
+    id: number
+    message: string
+}
+
+export type initialStateType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+    valueTextareaMessage: string
+}
+
+let initialState: initialStateType = {
     dialogs: [
         {id: 1, name: 'Dimych'},
         {id: 2, name: 'Andrey'},
@@ -24,31 +38,50 @@ let initialState: DialogsStateType = {
     valueTextareaMessage : ''
 }
 
-const dialogsReducer = (state: DialogsStateType = initialState, actions: ActionsTypes): DialogsStateType => {
+type changeTextareaMessageACType = {
+    type: typeof CHANGE_TEXTAREA_MESSAGES
+    valueTextarea: string
+}
+
+type addMessageACType = {
+    type: typeof ADD_DIALOGS_MESSAGES
+}
+
+type ActionsTypes = changeTextareaMessageACType | addMessageACType
+
+const dialogsReducer = (state: initialStateType = initialState, actions: ActionsTypes): initialStateType => {
 
     switch (actions.type) {
+
         case ADD_DIALOGS_MESSAGES:
             let body = state.valueTextareaMessage
-            state.valueTextareaMessage = ''
-            let message = {id: new Date().getTime(), message: body}
-            state.messages.push(message)
-            return state
+            return {
+                ...state,
+                messages: [...state.messages, {id: new Date().getTime(), message: body}],
+                valueTextareaMessage: ''
+            }
+
         case CHANGE_TEXTAREA_MESSAGES:
-            state.valueTextareaMessage = actions.valueTextarea
-            return state
+            return {
+                ...state,
+                valueTextareaMessage: actions.valueTextarea
+            }
+
         default:
             return state
     }
 }
 
-export const changeTextareaMessageAC = (text: string) => {
+
+
+export const changeTextareaMessageAC = (text: string): changeTextareaMessageACType => {
     return {
         type: 'CHANGE-TEXTAREA-MESSAGES',
         valueTextarea: text
     } as const
 }
 
-export  const addMessageActionsCreator = () => {
+export  const addMessageAC = (): addMessageACType => {
     return{
         type: 'ADD-DIALOGS-MESSAGES'
     } as const

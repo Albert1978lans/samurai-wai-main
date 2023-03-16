@@ -1,40 +1,34 @@
 import React from "react";
 import {
-    addPostActionCreator, changeTextareaActionCreator
+    addPostAC, changeTextareaAC, initialStateType,
 } from "../../../redux/profile-reducer";
 import {MyPosts} from "./MyPosts";
-import StoreContext from "../../../StoreContext";
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
+import {AppsStateType} from "../../../redux/redux-store";
 
-
-
-
-export const MyPostsContainer = () => {
-    return (
-        <StoreContext.Consumer>
-            {
-                (store) => {
-
-                    const state = store.getState()
-
-                    const addPost = () => {
-                        store.dispatch(addPostActionCreator())
-                    }
-
-                    const onChangeTextarea = (text: string) => {
-                        store.dispatch(changeTextareaActionCreator(text))
-
-                    }
-                    return (
-                        <MyPosts
-                            posts={state.profileState.posts}
-                            valueTextarea={state.profileState.valueTextarea}
-                            addPost={addPost}
-                            upDateTextarea={onChangeTextarea}
-                        />
-                    )
-                }
-            }
-        </StoreContext.Consumer>
-    )
+export type mapDispatchToPropsType = {
+    addPost: () => void
+    upDateTextarea: (text: string) => void
 }
+
+const mapStateToProps = (state: AppsStateType): initialStateType => {
+    return {
+        posts: state.profileState.posts,
+        valueTextarea: state.profileState.valueTextarea
+    }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
+    return {
+        addPost: () => {
+            dispatch(addPostAC())
+        },
+        upDateTextarea: (text: string) => {
+            dispatch(changeTextareaAC(text))
+        }
+    }
+}
+
+export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
 

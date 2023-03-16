@@ -2,17 +2,10 @@ import s from './Dialogs.module.css'
 import React, {ChangeEvent} from "react";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {MessageItem} from "./MessageItem/MessageItem";
-import {DialogItemType, MessageItemType} from "../../redux/store";
+import {initialStateType} from "../../redux/dialogs-reducer";
+import {mapDispatchToPropsType} from "./DialogsContainer";
 
-
-
-type DialogsPropsType = {
-    dialogs: Array<DialogItemType>
-    messages: Array<MessageItemType>
-    valueTextarea: string
-    sendMessage: () => void
-    updateTextarea: (text: string) => void
-}
+type DialogsPropsType = initialStateType & mapDispatchToPropsType
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     let dialogsElements = props.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
@@ -38,7 +31,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
                     {messagesElements}
                 </div>
                 <div>
-                    <textarea value={props.valueTextarea} onChange={changeTextarea}></textarea>
+                    <textarea value={props.valueTextareaMessage} onChange={changeTextarea}></textarea>
                 </div>
                 <div>
                     <button onClick={sandMessage}>Sand</button>

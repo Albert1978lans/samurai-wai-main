@@ -4,17 +4,15 @@ import dialogsReducer from "./dialogs-reducer";
 
 
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     profileState: profileReducer,
     dialogsState: dialogsReducer
 })
 
-// export type ReducesType = typeof reducers
-// export type AppsStateType = ReturnType<ReducesType>
+export type AppsStateType = ReturnType<typeof rootReducer>
 
 
 
-let store = createStore(reducers)
-export type StoreType = typeof store
+let store = createStore(rootReducer)
 
 export default store

@@ -1,17 +1,39 @@
-import {ActionsTypes, ProfileStateType} from "./store";
 
 const ADD_POST = 'ADD-POST'
 const CHANGE_TEXTAREA = 'CHANGE-TEXTAREA'
 
-let initialState: ProfileStateType = {
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+
+export type initialStateType = {
+    posts: Array<PostType>
+    valueTextarea: string
+}
+
+let initialState: initialStateType = {
     posts: [
         {id: 1, message: 'Hi, hou are you', likesCount: 5},
         {id: 2, message: 'It\'s my first post', likesCount: 17}
     ],
-    valueTextarea: ''
+    valueTextarea: 'it-incubator'
 }
 
-const profileReducer = (state: ProfileStateType = initialState, actions: ActionsTypes): ProfileStateType => {
+type changeTextareaACType = {
+    type: typeof CHANGE_TEXTAREA
+    valueTextarea: string
+}
+
+type addPostACType = {
+    type: typeof ADD_POST
+}
+
+type ActionsTypes = changeTextareaACType | addPostACType
+
+const profileReducer = (state: initialStateType = initialState, actions: ActionsTypes): initialStateType => {
+
     switch (actions.type) {
         case ADD_POST:
             let newPost = {
@@ -19,12 +41,18 @@ const profileReducer = (state: ProfileStateType = initialState, actions: Actions
                 message: state.valueTextarea,
                 likesCount: 0
             }
-            state.posts.push(newPost)
-            state.valueTextarea = ''
-            return state
+            return {
+                ...state,
+                posts: [...state.posts, newPost],
+                valueTextarea: ''
+            }
+
         case CHANGE_TEXTAREA:
-            state.valueTextarea = actions.valueTextarea
-            return state
+            return {
+                ...state,
+                valueTextarea: actions.valueTextarea
+            }
+
         default:
             return state
     }
@@ -32,14 +60,17 @@ const profileReducer = (state: ProfileStateType = initialState, actions: Actions
 
 }
 
-export const changeTextareaActionCreator = (text: string) => {
+
+
+
+export const changeTextareaAC = (text: string): changeTextareaACType => {
     return {type: "CHANGE-TEXTAREA",
         valueTextarea: text
     } as const
-        }
+}
 
-export const addPostActionCreator = () => {
+export const addPostAC = ():addPostACType => {
     return {type: 'ADD-POST'} as const
-        }
+}
 
 export default profileReducer
