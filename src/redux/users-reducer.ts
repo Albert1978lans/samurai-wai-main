@@ -1,6 +1,10 @@
+import {Col} from "antd";
+
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
+const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
+const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT'
 
 export type UserType = {
     id: number
@@ -19,6 +23,9 @@ export type UserType = {
 }
 export type initialStateType = {
     users: Array<UserType>
+    currentPage: number
+    pageSize: number
+    totalUsersCount: number
 }
 
 type followACType = {
@@ -34,10 +41,27 @@ type setUsersACType = {
     newUsers: Array<UserType>
 }
 
-type ActionsType = followACType | unFollowACType | setUsersACType
+type setCurrentPageACType = {
+    type: typeof SET_CURRENT_PAGE,
+    numberPage: number
+}
+
+type totalUsersCountACType = {
+    type: typeof SET_TOTAL_USERS_COUNT,
+    totalUsersCount: number
+}
+
+type ActionsType = followACType
+    | unFollowACType
+    | setUsersACType
+    | setCurrentPageACType
+    | totalUsersCountACType
 
 const initialState:initialStateType = {
-    users: []
+    users: [],
+    currentPage: 1,
+    pageSize: 5,
+    totalUsersCount: 70
 }
 
 const usersReducer = (state: initialStateType = initialState, actions: ActionsType): initialStateType => {
@@ -59,7 +83,17 @@ const usersReducer = (state: initialStateType = initialState, actions: ActionsTy
         case SET_USERS:
             return {
                 ...state,
-                users: [...state.users, ...actions.newUsers]
+                users: actions.newUsers
+            }
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: actions.numberPage
+            }
+        case SET_TOTAL_USERS_COUNT:
+            return {
+                ...state,
+                totalUsersCount: actions.totalUsersCount
             }
 
         default:
@@ -88,6 +122,21 @@ export const setUsersAC = (newUsers: Array<UserType>): setUsersACType => {
         type: SET_USERS,
         newUsers: newUsers
     }
+}
+
+export const setCurrentPageAC = (numberPage: number): setCurrentPageACType => {
+    return {
+        type: SET_CURRENT_PAGE,
+        numberPage
+    }
+}
+
+export const setTotalUsersCountAC = (totalUsersCount: number): totalUsersCountACType => {
+    return {
+        type: SET_TOTAL_USERS_COUNT,
+        totalUsersCount
+    }
+
 }
 
 export default usersReducer
