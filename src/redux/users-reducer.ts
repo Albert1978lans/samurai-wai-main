@@ -7,7 +7,11 @@ export type UserType = {
     imageUrl: string
     folloved: boolean
     status: string
-    fullName: string
+    name: string
+    photos: {
+        large: string | null
+        small: string | null
+    }
     location: {
         country: string
         city: string
@@ -79,7 +83,7 @@ export const unFollowAC = (userId: number): unFollowACType => {
     }
 }
 
-export const setUsers = (newUsers: Array<UserType>): setUsersACType => {
+export const setUsersAC = (newUsers: Array<UserType>): setUsersACType => {
     return {
         type: SET_USERS,
         newUsers: newUsers
