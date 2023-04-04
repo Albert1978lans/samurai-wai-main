@@ -2,6 +2,8 @@ import s from "./Users.module.css";
 import userPhoto from "../../assets/images/User.png";
 import React from "react";
 import {UserType} from "../../redux/users-reducer";
+import {Preloader} from "../common/Preloader/Preloader";
+
 
 type UsersNewPropsType = {
     totalUsersCount: number
@@ -10,6 +12,7 @@ type UsersNewPropsType = {
     changeCurrentPage: (p: number) => void
     users: Array<UserType>
     changeFollow: (id: number, folloved: boolean) => void
+    isFetching: boolean
 }
 
 
@@ -38,6 +41,7 @@ export const UsersNew = (props: UsersNewPropsType) => {
 
     return (
         <>
+            {props.isFetching ? <Preloader/> : null}
             <div className={s.listPages}>{pages}</div>
             {props.users.map((u) => {
                 return (
