@@ -12,7 +12,7 @@ import {Dispatch} from "redux";
 import {initialStateType} from "../../redux/users-reducer";
 import React from "react";
 import axios from "axios";
-import {UsersNew} from "./UsersNew";
+import {Users} from "./Users";
 
 class UsersCompContainer extends React.Component<initialStateType & mapDispatchToPropsType> {
 
@@ -47,7 +47,7 @@ class UsersCompContainer extends React.Component<initialStateType & mapDispatchT
     render() {
             return (
                 <>
-                    <UsersNew
+                    <Users
                         totalUsersCount = {this.props.totalUsersCount}
                         pageSize = {this.props.pageSize}
                         currentPage = {this.props.currentPage}

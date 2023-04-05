@@ -1,46 +1,60 @@
-import s from './Users.module.css'
-import {initialStateType} from "../../redux/users-reducer";
-import {mapDispatchToPropsType} from "./Users.Container";
-import axios from "axios";
-import userPhoto from '../../assets/images/User.png'
-
-type UsersPropsType = initialStateType & mapDispatchToPropsType
-
-// props.setUsers([
-//     {id: 1, imageUrl: urlActress, folloved: true, status: 'I am boss', fullName: 'Dimich K', location: {country: 'Belarus', city: 'Minsk'}},
-//     {id: 2, imageUrl: urlActress, folloved: false, status: 'I am boss', fullName: 'Valera D', location: {country: 'Rasha', city: 'Moscow'}},
-//     {id: 3, imageUrl: urlActress, folloved: false, status: 'I am boss', fullName: 'Sacha L', location: {country: 'Ukrane', city: 'Kiev'}},
-// ])
+import s from "./Users.module.css";
+import userPhoto from "../../assets/images/User.png";
+import React from "react";
+import {UserType} from "../../redux/users-reducer";
+import {Preloader} from "../common/Preloader/Preloader";
+import {NavLink} from "react-router-dom";
 
 
+type UsersNewPropsType = {
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    changeCurrentPage: (p: number) => void
+    users: Array<UserType>
+    changeFollow: (id: number, folloved: boolean) => void
+    isFetching: boolean
+}
 
-export const Users = (props: UsersPropsType) => {
 
-    const getUsers = () => {
-        if (props.users.length === 0) {
-            axios.get("https://social-network.samuraijs.com/api/1.0/users")
-                .then(response => {
-                    props.setUsers(response.data.items)
-                    console.log(response.data.items)
-                })
-        }
+export const Users = (props: UsersNewPropsType) => {
+
+    let arrPages = []
+
+    let numberOfPages = Math.ceil(props.totalUsersCount / props.pageSize)
+
+    for (let i = 1; i <= numberOfPages; i++) {
+        arrPages.push(i)
     }
 
-    const changeFollow = (id: number, folloved: boolean) => {
-        (folloved ? props.unFollow(id) : props.follow(id))
-    }
+    let pages = arrPages.map(p => {
+
+        const finalSpanClass = s.pages + ' ' + (props.currentPage === p ? s.selected : '')
+
+        return <span
+            key={p}
+            className={finalSpanClass}
+            onClick={() => props.changeCurrentPage(p)}
+        >
+                {p}
+            </span>
+    })
+
     return (
         <>
-            <button onClick={getUsers}>get users</button>
+            {props.isFetching ? <Preloader/> : null}
+            <div className={s.listPages}>{pages}</div>
             {props.users.map((u) => {
-                return(
+                return (
                     <div key={u.id} className={s.wrapper}>
                         <div className={s.imageButton}>
                             <div className={s.foto}>
-                                <img src={u.photos.small !== null ? u.photos.small : userPhoto} alt=""/>
+                                <NavLink to={'/profile/' + u.id}>
+                                    <img src={u.photos.small !== null ? u.photos.small : userPhoto} alt=""/>
+                                </NavLink>
                             </div>
 
-                            <button onClick={()=>changeFollow(u.id, u.folloved)}>
+                            <button onClick={() => props.changeFollow(u.id, u.folloved)}>
                                 {u.folloved ? 'UNFOLLOW' : 'FOLLOW'}
                             </button>
                         </div>

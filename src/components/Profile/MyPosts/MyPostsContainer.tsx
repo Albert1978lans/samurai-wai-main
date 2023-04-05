@@ -15,7 +15,8 @@ export type mapDispatchToPropsType = {
 const mapStateToProps = (state: AppsStateType): initialStateType => {
     return {
         posts: state.profileState.posts,
-        valueTextarea: state.profileState.valueTextarea
+        valueTextarea: state.profileState.valueTextarea,
+        // profile: state.profileState.profile
     }
 }
 
