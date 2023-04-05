@@ -69,7 +69,7 @@ const initialState:initialStateType = {
     users: [],
     currentPage: 1,
     pageSize: 5,
-    totalUsersCount: 70,
+    totalUsersCount: 200,
     isFetching: false
 }
 
