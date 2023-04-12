@@ -9,3 +9,17 @@
 .header {
     background-color: green;
 }
+
+.loginBlock {
+    float: right;
+}
+
+.loginBlock span {
+    font-weight: bolder;
+    color: white;
+}
+
+.loginBlock a {
+    font-weight: bolder;
+    color: white;
+}

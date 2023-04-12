@@ -8,7 +8,6 @@ import {
     unFollow,
     UserType
 } from "../../redux/users-reducer";
-import {Dispatch} from "redux";
 import {initialStateType} from "../../redux/users-reducer";
 import React from "react";
 import axios from "axios";
