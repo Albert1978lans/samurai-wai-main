@@ -17,7 +17,12 @@ class UsersCompContainer extends React.Component<initialStateType & mapDispatchT
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
+            withCredentials: true,
+            headers:     {
+                "API-KEY": "3e10d153-598b-476d-835d-ac308d49aded"
+            }
+        })
             .then(response => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(response.data.items)
@@ -34,7 +39,12 @@ class UsersCompContainer extends React.Component<initialStateType & mapDispatchT
     changeCurrentPage = (numberPage: number) => {
         this.props.toggleIsFetching(true)
         this.props.setCurrentPage(numberPage)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numberPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numberPage}&count=${this.props.pageSize}`, {
+            withCredentials: true,
+            headers:     {
+                "API-KEY": "3e10d153-598b-476d-835d-ac308d49aded"
+            }
+        })
             .then(response => {
                 this.props.setUsers(response.data.items)
                 this.props.toggleIsFetching(false)

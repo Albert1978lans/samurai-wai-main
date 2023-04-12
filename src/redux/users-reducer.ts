@@ -10,7 +10,7 @@ const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
 export type UserType = {
     id: number
     imageUrl: string
-    folloved: boolean
+    followed: boolean
     status: string
     name: string
     photos: {
@@ -80,13 +80,13 @@ const usersReducer = (state: initialStateType = initialState, actions: ActionsTy
         case FOLLOW:
             return {
                 ...state,
-                users: state.users.map((u => u.id === actions.id ? {...u, folloved: true} : u))
+                users: state.users.map((u => u.id === actions.id ? {...u, followed: true} : u))
             }
 
         case UNFOLLOW:
             return {
                 ...state,
-                users: state.users.map((u => u.id === actions.id ? {...u, folloved: false} : u))
+                users: state.users.map((u => u.id === actions.id ? {...u, followed: false} : u))
             }
 
         case SET_USERS:
