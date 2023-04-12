@@ -10,24 +10,18 @@ import {
 } from "../../redux/users-reducer";
 import {initialStateType} from "../../redux/users-reducer";
 import React from "react";
-import axios from "axios";
 import {Users} from "./Users";
+import {userAPI} from "../../api/api";
 
 class UsersCompContainer extends React.Component<initialStateType & mapDispatchToPropsType> {
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-            withCredentials: true,
-            headers:     {
-                "API-KEY": "3e10d153-598b-476d-835d-ac308d49aded"
-            }
-        })
-            .then(response => {
+        userAPI.getUsers(this.props.currentPage, this.props.pageSize)
+            .then(data => {
                 this.props.toggleIsFetching(false)
-                this.props.setUsers(response.data.items)
-                // this.props.setTotalUsersCount(response.data.totalCount)
-                console.log(response.data.totalCount)
+                this.props.setUsers(data.items)
+                console.log(data.totalCount)
             })
     }
 
@@ -39,16 +33,11 @@ class UsersCompContainer extends React.Component<initialStateType & mapDispatchT
     changeCurrentPage = (numberPage: number) => {
         this.props.toggleIsFetching(true)
         this.props.setCurrentPage(numberPage)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numberPage}&count=${this.props.pageSize}`, {
-            withCredentials: true,
-            headers:     {
-                "API-KEY": "3e10d153-598b-476d-835d-ac308d49aded"
-            }
-        })
-            .then(response => {
-                this.props.setUsers(response.data.items)
+
+        userAPI.getUsers(numberPage, this.props.pageSize)
+            .then(data => {
+                this.props.setUsers(data.items)
                 this.props.toggleIsFetching(false)
-                // this.props.setTotalUsersCount(response.data.totalCount)
             })
     }
 

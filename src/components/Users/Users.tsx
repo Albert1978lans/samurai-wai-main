@@ -4,7 +4,7 @@ import React from "react";
 import {UserType} from "../../redux/users-reducer";
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
+import {followedAPI} from "../../api/api";
 
 
 type UsersNewPropsType = {
@@ -56,16 +56,10 @@ export const Users = (props: UsersNewPropsType) => {
                             </div>
 
                             {u.followed
-
                                 ? <button
                                     onClick={
                                         () => {
-                                            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                                withCredentials: true,
-                                                headers: {
-                                                    "API-KEY": "3e10d153-598b-476d-835d-ac308d49aded"
-                                                }
-                                            })
+                                            followedAPI.unfollowUser(u.id)
                                                 .then(response => {
                                                     if (response.data.resultCode == 0) {
                                                         props.changeFollow(u.id, u.followed)
@@ -78,12 +72,7 @@ export const Users = (props: UsersNewPropsType) => {
                                 </button>
                                 : <button
                                     onClick={() => {
-                                        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                            withCredentials: true,
-                                            headers: {
-                                                "API-KEY": "3e10d153-598b-476d-835d-ac308d49aded"
-                                            }
-                                        })
+                                        followedAPI.followUser(u.id)
                                             .then(response => {
                                                 if (response.data.resultCode == 0) {
                                                     props.changeFollow(u.id, u.followed)
