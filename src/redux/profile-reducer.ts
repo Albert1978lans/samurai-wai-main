@@ -1,4 +1,6 @@
 import {ProfileType} from "../components/Profile/ProfileContainer";
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 const ADD_POST = 'ADD-POST'
 const CHANGE_TEXTAREA = 'CHANGE-TEXTAREA'
@@ -91,6 +93,15 @@ export const setUserProfile = (profile: ProfileType):setUserProfileAC => {
     return {
         type: 'SET-USERS-PROFILE',
         profile
+    }
+}
+
+export const getUser = (userId: number) => {
+    return (dispatch: Dispatch) => {
+        usersAPI.getUser(userId)
+            .then(response => {
+                dispatch(setUserProfile(response.data))
+            })
     }
 }
 
