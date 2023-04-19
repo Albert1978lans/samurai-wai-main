@@ -15,11 +15,14 @@ export type mapDispatchToPropsType = {
     updateTextarea: (text: string) => void
 }
 
-const mapStateToProps = (state: AppsStateType): initialStateType => {
+
+
+const mapStateToProps = (state: AppsStateType): initialStateType & {isAuth: boolean} => {
     return {
         dialogs: state.dialogsState.dialogs,
         messages: state.dialogsState.messages,
-        valueTextareaMessage: state.dialogsState.valueTextareaMessage
+        valueTextareaMessage: state.dialogsState.valueTextareaMessage,
+        isAuth: state.auth.isAuth
     }
 }
 

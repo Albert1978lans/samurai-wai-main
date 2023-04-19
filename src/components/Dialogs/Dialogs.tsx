@@ -4,8 +4,9 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import {MessageItem} from "./MessageItem/MessageItem";
 import {initialStateType} from "../../redux/dialogs-reducer";
 import {mapDispatchToPropsType} from "./DialogsContainer";
+import {Redirect} from "react-router-dom";
 
-type DialogsPropsType = initialStateType & mapDispatchToPropsType
+type DialogsPropsType = initialStateType & mapDispatchToPropsType & {isAuth: boolean}
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     let dialogsElements = props.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
@@ -17,6 +18,10 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
     const changeTextarea = (e:ChangeEvent<HTMLTextAreaElement>) => {
         props.updateTextarea(e.currentTarget.value)
+    }
+
+    if(!props.isAuth) {
+        return <Redirect to={'/login'}/>
     }
 
     return (
