@@ -96,7 +96,7 @@ export const setUserProfile = (profile: ProfileType):setUserProfileAC => {
     }
 }
 
-export const getUser = (userId: number) => {
+export const getProfile = (userId: number) => {
     return (dispatch: Dispatch) => {
         usersAPI.getUser(userId)
             .then(response => {
