@@ -8,6 +8,7 @@ import {
 import {initialStateType} from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
+import {withAuthRedirect} from "../../hok/withAuthRedirect";
 
 class UsersCompContainer extends React.Component<initialStateType & mapDispatchToPropsType> {
 
@@ -59,11 +60,13 @@ const mapStateToProps = (state: AppsStateType): initialStateType => {
     }
 }
 
+let withRedirect = withAuthRedirect(UsersCompContainer)
+
 export const UsersContainer = connect(mapStateToProps, {
     follow,
     unFollow,
     setCurrentPage,
     toggleFollowingProgress,
     getUsers
-})(UsersCompContainer)
+})(withRedirect)
 
