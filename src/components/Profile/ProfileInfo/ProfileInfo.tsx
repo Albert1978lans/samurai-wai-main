@@ -2,10 +2,13 @@ import React from "react";
 import s from './ProfileInfo.module.css'
 import {ProfileType} from "../ProfileContainer";
 import {Preloader} from "../../common/Preloader/Preloader";
+import ProfileStatus from "./ProfileStatus";
 
 type ProfileInfoType = {
     profile: ProfileType
 }
+
+
 
 const ProfileInfo = (props: ProfileInfoType) => {
 
@@ -23,7 +26,7 @@ const ProfileInfo = (props: ProfileInfoType) => {
                     <img src={props.profile.photos.small} />
                 </div>
 
-                ava + description
+                <ProfileStatus title={'Hello'}/>
             </div>
         </div>
     )
