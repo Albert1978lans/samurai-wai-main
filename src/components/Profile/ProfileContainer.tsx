@@ -42,7 +42,7 @@ class ProfileContainer extends React.Component<mapStateToPropsType & mapDispatch
         let userId = this.props.match.params.userId
 
         if (!userId) {
-            userId = '2'
+            userId = '28504'
         }
 
         this.props.getProfile(+userId)
@@ -79,7 +79,7 @@ const mapStateToProps = (state: AppsStateType): mapStateToPropsType => {
 }
 
 export default compose<React.ComponentType>(
-                    withAuthRedirect,
+                    // withAuthRedirect,
                     withRouter,
                     connect(mapStateToProps, {getProfile, getUserStatus, updateStatus})
                 )(ProfileContainer)
