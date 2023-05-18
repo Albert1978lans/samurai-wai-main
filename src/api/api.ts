@@ -30,10 +30,31 @@ export const usersAPI = {
     },
 
     getUser: (userId: number) => {
+        console.warn('Obsolete method. Please profileApi object')
+        return profileAPI.getProfile(userId)
+    }
+
+}
+
+export const profileAPI = {
+
+    getProfile: (userId: number) => {
         return (
             instance.get(`profile/${userId}`)
         )
-    }
+    },
+
+    getStatus: (userId: number) => {
+        return (
+            instance.get(`/profile/status/${userId}`)
+        )
+    },
+
+    updateStatus: (status: string) => {
+        return (
+            instance.put(`/profile/status`, {status: status})
+        )
+    },
 
 }
 

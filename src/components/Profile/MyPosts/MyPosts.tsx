@@ -2,10 +2,9 @@
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {initialStateType} from "../../../redux/profile-reducer";
-import {mapDispatchToPropsType} from "./MyPostsContainer";
+import {mapDispatchToPropsType, mapStateToPropsType} from "./MyPostsContainer";
 
-type MyPostsPropsType = initialStateType & mapDispatchToPropsType
+type MyPostsPropsType = mapStateToPropsType & mapDispatchToPropsType
 
 export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 

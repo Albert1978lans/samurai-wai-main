@@ -92,7 +92,7 @@ const store: StoreType = {
 
     dispatch(actions: any) {
 
-        this._state.profileState = profileReducer(this._state.profileState, actions)
+        // this._state.profileState = profileReducer(this._state.profileState, actions)
         this._state.dialogsState = dialogsReducer(this._state.dialogsState, actions)
 
         this._onChange()
