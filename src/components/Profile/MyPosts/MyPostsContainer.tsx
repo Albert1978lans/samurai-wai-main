@@ -5,7 +5,7 @@ import {
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {AppsStateType} from "../../../redux/redux-store";
+import {AppStateType} from "../../../redux/redux-store";
 
 export type mapDispatchToPropsType = {
     addPost: () => void
@@ -17,7 +17,7 @@ export type mapStateToPropsType = {
     valueTextarea: string
 }
 
-const mapStateToProps = (state: AppsStateType): mapStateToPropsType => {
+const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         posts: state.profileState.posts,
         valueTextarea: state.profileState.valueTextarea,

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {formDataType} from "../components/Login/Login";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -62,6 +63,16 @@ export const authAPI = {
     me: () => {
         return(
             instance.get(`auth/me`)
+        )
+    },
+    login: (formData: formDataType) => {
+        return (
+            instance.post<{resultCode: number, messages: string[], data: {userId: number}}>(`auth/login`, formData)
+        )
+    },
+    logout: () => {
+        return (
+            instance.delete<{resultCode: number, messages: string[], data: {}}>(`auth/login`)
         )
     }
 }

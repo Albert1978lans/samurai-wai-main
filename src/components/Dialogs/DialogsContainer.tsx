@@ -7,7 +7,7 @@ import {
     from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
-import {AppsStateType} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 import {withAuthRedirect} from "../../hok/withAuthRedirect";
 import {compose} from "redux";
@@ -19,7 +19,7 @@ export type mapDispatchToPropsType = {
 
 
 
-const mapStateToProps = (state: AppsStateType): initialStateType => {
+const mapStateToProps = (state: AppStateType): initialStateType => {
     return {
         dialogs: state.dialogsState.dialogs,
         messages: state.dialogsState.messages,

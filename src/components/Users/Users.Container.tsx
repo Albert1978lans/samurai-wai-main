@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {AppsStateType} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
 import {
     follow, getUsers,
     setCurrentPage,toggleFollowingProgress,
@@ -50,7 +50,7 @@ export type mapDispatchToPropsType = {
     getUsers: (currentPage: number, pageSize: number) => void
 }
 
-const mapStateToProps = (state: AppsStateType): initialStateType => {
+const mapStateToProps = (state: AppStateType): initialStateType => {
     return {
         users: state.usersState.users,
         currentPage: state.usersState.currentPage,

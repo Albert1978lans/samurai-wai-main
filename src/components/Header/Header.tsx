@@ -15,7 +15,7 @@ const Header = (props: HeaderPropsType) => {
                 alt="logo"/>
             <div className={s.loginBlock}>
                 {props.isAuth
-                    ? <span>{props.login}</span>
+                    ? <button onClick={props.deleteAuthUser}>LogOut</button>
                     : <NavLink to={'/login'}>Login</NavLink>
                 }
 

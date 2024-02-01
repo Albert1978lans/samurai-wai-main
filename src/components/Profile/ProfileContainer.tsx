@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getProfile, getUserStatus, updateStatus} from "../../redux/profile-reducer";
-import {AppsStateType} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
 import {withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
 import {withAuthRedirect} from "../../hok/withAuthRedirect";
@@ -71,7 +71,7 @@ type mapStateToPropsType = {
     status: string
 }
 
-const mapStateToProps = (state: AppsStateType): mapStateToPropsType => {
+const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         profile: state.profileState.profile,
         status: state.profileState.status
@@ -79,7 +79,7 @@ const mapStateToProps = (state: AppsStateType): mapStateToPropsType => {
 }
 
 export default compose<React.ComponentType>(
-                    // withAuthRedirect,
+                    withAuthRedirect,
                     withRouter,
                     connect(mapStateToProps, {getProfile, getUserStatus, updateStatus})
                 )(ProfileContainer)

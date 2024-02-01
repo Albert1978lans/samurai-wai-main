@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../api/api";
+import {formDataType} from "../components/Login/Login";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 
@@ -20,7 +21,7 @@ const initialState: initialStateType = {
 export type dataType = {
     id: number
     email: string
-    login: string
+    login?: string
 }
 
 type setAuthUserDataType = {
@@ -28,7 +29,7 @@ type setAuthUserDataType = {
     data: dataType
 }
 
-type ActionType = setAuthUserDataType
+type ActionType = setAuthUserDataType | ReturnType<typeof deleteAuthUser>
 
 const authReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
 
@@ -38,6 +39,12 @@ const authReducer = (state: initialStateType = initialState, action: ActionType)
                 ...state,
                 ...action.data,
                 isAuth: true
+            }
+        }
+        case "DELETE_AUTH_USER": {
+            return {
+                ...state,
+                isAuth: false
             }
         }
         default:
@@ -52,12 +59,43 @@ export const setAuthUserData = (data: dataType): setAuthUserDataType => {
     } as const
 }
 
+export const deleteAuthUser = () => {
+    return {
+        type: 'DELETE_AUTH_USER'
+    } as const
+}
+
+
+// THUNK
+
 export  const getAuthUserData = () => (dispatch: Dispatch) => {
     authAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data
                 dispatch(setAuthUserData({id, email, login}))
+            }
+
+        })
+}
+
+export  const loginTC = (formData: formDataType) => (dispatch: Dispatch) => {
+    authAPI.login(formData)
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                const id = res.data.data.userId
+                const {email} = formData
+                dispatch(setAuthUserData({id, email}))
+            }
+
+        })
+}
+
+export  const logoutTC = () => (dispatch: Dispatch) => {
+    authAPI.logout()
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(deleteAuthUser())
             }
 
         })
