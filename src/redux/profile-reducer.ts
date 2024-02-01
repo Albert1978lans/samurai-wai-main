@@ -3,7 +3,6 @@ import {Dispatch} from "redux";
 import {profileAPI, usersAPI} from "../api/api";
 
 const ADD_POST = 'ADD-POST'
-const CHANGE_TEXTAREA = 'CHANGE-TEXTAREA'
 const SET_USERS_PROFILE = 'SET-USERS-PROFILE'
 const SET_STATUS = 'SET-STATUS'
 
@@ -15,7 +14,6 @@ export type PostType = {
 
 export type initialStateType = {
     posts: Array<PostType>
-    valueTextarea: string
     profile?: any
     status: string
 }
@@ -25,18 +23,13 @@ let initialState: initialStateType = {
         {id: 1, message: 'Hi, hou are you', likesCount: 5},
         {id: 2, message: 'It\'s my first post', likesCount: 17}
     ],
-    valueTextarea: 'it-incubator',
     profile: null,
     status: ''
 }
 
-type changeTextareaACType = {
-    type: typeof CHANGE_TEXTAREA
-    valueTextarea: string
-}
-
 type addPostACType = {
     type: typeof ADD_POST
+    newPost: string
 }
 
 type setUserProfileAC = {
@@ -49,7 +42,7 @@ type setStatusACType = {
     status: string
 }
 
-type ActionsTypes = changeTextareaACType | addPostACType | setUserProfileAC | setStatusACType
+type ActionsTypes = addPostACType | setUserProfileAC | setStatusACType
 
 const profileReducer = (state: initialStateType = initialState, actions: ActionsTypes): initialStateType => {
 
@@ -57,19 +50,12 @@ const profileReducer = (state: initialStateType = initialState, actions: Actions
         case ADD_POST:
             let newPost = {
                 id: new Date().getTime(),
-                message: state.valueTextarea,
+                message: actions.newPost,
                 likesCount: 0
             }
             return {
                 ...state,
-                posts: [...state.posts, newPost],
-                valueTextarea: ''
-            }
-
-        case CHANGE_TEXTAREA:
-            return {
-                ...state,
-                valueTextarea: actions.valueTextarea
+                posts: [...state.posts, newPost]
             }
         case "SET-USERS-PROFILE":
             return {
@@ -88,18 +74,8 @@ const profileReducer = (state: initialStateType = initialState, actions: Actions
 
 
 }
-
-
-
-
-export const changeTextareaAC = (text: string): changeTextareaACType => {
-    return {type: "CHANGE-TEXTAREA",
-        valueTextarea: text
-    } as const
-}
-
-export const addPostAC = ():addPostACType => {
-    return {type: 'ADD-POST'} as const
+export const addPostAC = (newPost: string):addPostACType => {
+    return {type: 'ADD-POST', newPost} as const
 }
 
 export const setUserProfile = (profile: ProfileType):setUserProfileAC => {

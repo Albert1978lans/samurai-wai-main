@@ -1,10 +1,10 @@
 import s from './Dialogs.module.css'
-import React, {ChangeEvent} from "react";
+import React from "react";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {MessageItem} from "./MessageItem/MessageItem";
 import {initialStateType} from "../../redux/dialogs-reducer";
 import {mapDispatchToPropsType} from "./DialogsContainer";
-import {Redirect} from "react-router-dom";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 type DialogsPropsType = initialStateType & mapDispatchToPropsType
 
@@ -12,12 +12,8 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     let dialogsElements = props.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
     let messagesElements = props.messages.map(m => <MessageItem key={m.id} message={m.message} id={m.id}/>)
 
-    const sandMessage =() => {
-        props.sendMessage()
-    }
-
-    const changeTextarea = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateTextarea(e.currentTarget.value)
+    const sandMessage =(data: messageFormDataType) => {
+        props.sendMessage(data.newDialogsMessage)
     }
 
     return (
@@ -31,14 +27,30 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
                 <div>
                     {messagesElements}
                 </div>
-                <div>
-                    <textarea value={props.valueTextareaMessage} onChange={changeTextarea}></textarea>
-                </div>
-                <div>
-                    <button onClick={sandMessage}>Sand</button>
-                </div>
+                <DialogsMessageReduxForm onSubmit={sandMessage}/>
             </div>
 
         </div>
     )
 }
+
+export type messageFormDataType = {
+    newDialogsMessage: string
+}
+
+let DialogsMessage = (props: InjectedFormProps<messageFormDataType>) => {
+    const { pristine, submitting, handleSubmit } = props
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+                <Field name="newDialogsMessage" component="textarea" type="text"/>
+            </div>
+            <button type="submit" disabled={pristine || submitting}>Sand</button>
+        </form>
+    )
+}
+
+
+const DialogsMessageReduxForm = reduxForm<messageFormDataType>({
+    form: 'post'
+})(DialogsMessage)

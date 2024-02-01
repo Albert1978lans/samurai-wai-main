@@ -1,10 +1,6 @@
 
 import React from "react";
-import {
-    addMessageAC,
-    changeTextareaMessageAC, initialStateType,
-}
-    from "../../redux/dialogs-reducer";
+import {addMessageAC, initialStateType,} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
@@ -13,8 +9,7 @@ import {withAuthRedirect} from "../../hok/withAuthRedirect";
 import {compose} from "redux";
 
 export type mapDispatchToPropsType = {
-    sendMessage: () => void
-    updateTextarea: (text: string) => void
+    sendMessage: (newMessage: string) => void
 }
 
 
@@ -22,21 +17,16 @@ export type mapDispatchToPropsType = {
 const mapStateToProps = (state: AppStateType): initialStateType => {
     return {
         dialogs: state.dialogsState.dialogs,
-        messages: state.dialogsState.messages,
-        valueTextareaMessage: state.dialogsState.valueTextareaMessage
+        messages: state.dialogsState.messages
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
     return {
-        sendMessage: () => {
-            dispatch(addMessageAC())
-        },
-        updateTextarea: (text: string) => {
-            dispatch(changeTextareaMessageAC(text))
+        sendMessage: (newMessage) => {
+            dispatch(addMessageAC(newMessage))
         }
-    }
-}
+}}
 
 export default compose<React.ComponentType>(
     withAuthRedirect,

@@ -1,10 +1,6 @@
-import profileReducer, {
-    addPostAC,
-    changeTextareaAC
-} from "./profile-reducer";
+import {addPostAC} from "./profile-reducer";
 import dialogsReducer, {
-    addMessageAC,
-    changeTextareaMessageAC
+    addMessageAC
 } from "./dialogs-reducer";
 
 export type PostItemType = {
@@ -28,7 +24,6 @@ export type ProfileStateType = {
 export  type DialogsStateType = {
     dialogs: Array<DialogItemType>,
     messages: Array<MessageItemType>
-    valueTextareaMessage: string
 }
 
 export type StateType = {
@@ -46,9 +41,7 @@ export type StoreType = {
 }
 
 export type ActionsTypes = ReturnType<typeof addPostAC>
-    | ReturnType<typeof changeTextareaAC>
     | ReturnType<typeof addMessageAC>
-    | ReturnType<typeof changeTextareaMessageAC>
 
 const store: StoreType = {
     _state: {
@@ -75,8 +68,7 @@ const store: StoreType = {
                 {id: 4, message: 'Yo'},
                 {id: 5, message: 'Bye'},
                 {id: 6, message: 'Hello'},
-            ],
-            valueTextareaMessage : ''
+            ]
         }
     },
 
@@ -92,7 +84,6 @@ const store: StoreType = {
 
     dispatch(actions: any) {
 
-        // this._state.profileState = profileReducer(this._state.profileState, actions)
         this._state.dialogsState = dialogsReducer(this._state.dialogsState, actions)
 
         this._onChange()

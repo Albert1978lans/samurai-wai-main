@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    addPostAC, changeTextareaAC, PostType,
+    addPostAC, PostType,
 } from "../../../redux/profile-reducer";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
@@ -8,30 +8,24 @@ import {Dispatch} from "redux";
 import {AppStateType} from "../../../redux/redux-store";
 
 export type mapDispatchToPropsType = {
-    addPost: () => void
-    upDateTextarea: (text: string) => void
+    addPost: (newPost: string) => void
 }
 
 export type mapStateToPropsType = {
     posts: Array<PostType>
-    valueTextarea: string
 }
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         posts: state.profileState.posts,
-        valueTextarea: state.profileState.valueTextarea,
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): mapDispatchToPropsType => {
     return {
-        addPost: () => {
-            dispatch(addPostAC())
+        addPost: (newPost) => {
+            dispatch(addPostAC(newPost))
         },
-        upDateTextarea: (text: string) => {
-            dispatch(changeTextareaAC(text))
-        }
     }
 }
 
