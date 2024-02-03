@@ -4,6 +4,8 @@ import {loginTC} from "../../redux/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
+import {Input} from "../common/FormsControls/FormsControls";
+import {required} from "../../utils/validators";
 
 export type formDataType = {
     email: string
@@ -42,11 +44,11 @@ let LoginForm = (props: InjectedFormProps<formDataType>) => {
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="email">Email</label>
-                <Field name="email" component="input" type="text"/>
+                <Field name="email" component={Input} validate={[required]} type="text"/>
             </div>
             <div>
                 <label htmlFor="password">Password</label>
-                <Field name="password" component="input" type="password"/>
+                <Field name="password" component={Input} validate={[required]} type="password"/>
             </div>
             <div>
                 <Field name="rememberMe" component="input" type="checkbox"/> remember me

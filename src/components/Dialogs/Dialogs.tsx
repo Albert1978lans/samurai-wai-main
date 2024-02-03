@@ -5,6 +5,8 @@ import {MessageItem} from "./MessageItem/MessageItem";
 import {initialStateType} from "../../redux/dialogs-reducer";
 import {mapDispatchToPropsType} from "./DialogsContainer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {Textarea} from "../common/FormsControls/FormsControls";
+import {maxLengthCreators, required} from "../../utils/validators";
 
 type DialogsPropsType = initialStateType & mapDispatchToPropsType
 
@@ -38,12 +40,20 @@ export type messageFormDataType = {
     newDialogsMessage: string
 }
 
+const maxLength30 = maxLengthCreators(30)
+
 let DialogsMessage = (props: InjectedFormProps<messageFormDataType>) => {
     const { pristine, submitting, handleSubmit } = props
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <Field name="newDialogsMessage" component="textarea" type="text"/>
+                <Field
+                    name="newDialogsMessage"
+                    component={Textarea}
+                    type="text"
+                    placeholder='Enter your message'
+                    validate={[required, maxLength30]}
+                />
             </div>
             <button type="submit" disabled={pristine || submitting}>Sand</button>
         </form>
