@@ -1,7 +1,7 @@
 import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {loginTC} from "../../redux/auth-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
 import {Input} from "../common/FormsControls/FormsControls";
@@ -14,17 +14,16 @@ export type formDataType = {
     captcha?: string
 }
 
-const Login = () => {
+type LoginPropsType = mapDispatchToPropsType & mapStateToPropsType
 
-    const dispatch = useDispatch()
-    const isAuth = useSelector<AppStateType>(state => state.auth.isAuth)
+const Login = (props: LoginPropsType) => {
 
     const onSubmit = (formData: formDataType) => {
         console.log(formData)
-        dispatch(loginTC(formData))
+        props.loginTC(formData)
     }
 
-    if (isAuth) {
+    if (props.isAuth) {
         return <Redirect to='/profile'/>
     }
 
@@ -66,4 +65,18 @@ const LoginReduxForm = reduxForm<formDataType>({
     form: 'login'
 })(LoginForm)
 
-export default Login
+type mapDispatchToPropsType = {
+    loginTC: (data: formDataType) => void
+}
+
+type mapStateToPropsType = {
+    isAuth: boolean
+}
+
+const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+    return {
+        isAuth: state.auth.isAuth
+    }
+}
+
+export default connect(mapStateToProps, {loginTC})(Login)

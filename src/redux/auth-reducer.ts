@@ -18,18 +18,19 @@ const initialState: initialStateType = {
     isAuth: false,
 }
 
-export type dataType = {
-    id: number
-    email: string
-    login?: string
+export type DataType = {
+    id: number | null
+    email: string | null
+    login: string | null
+    isAuth: boolean
 }
 
 type setAuthUserDataType = {
     type: typeof SET_USER_DATA
-    data: dataType
+    data: DataType
 }
 
-type ActionType = setAuthUserDataType | ReturnType<typeof deleteAuthUser>
+type ActionType = setAuthUserDataType
 
 const authReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
 
@@ -38,13 +39,6 @@ const authReducer = (state: initialStateType = initialState, action: ActionType)
             return {
                 ...state,
                 ...action.data,
-                isAuth: true
-            }
-        }
-        case "DELETE_AUTH_USER": {
-            return {
-                ...state,
-                isAuth: false
             }
         }
         default:
@@ -52,19 +46,12 @@ const authReducer = (state: initialStateType = initialState, action: ActionType)
     }
 }
 
-export const setAuthUserData = (data: dataType): setAuthUserDataType => {
+export const setAuthUserDataAC = (data: DataType): setAuthUserDataType => {
     return {
         type: SET_USER_DATA,
         data
     } as const
 }
-
-export const deleteAuthUser = () => {
-    return {
-        type: 'DELETE_AUTH_USER'
-    } as const
-}
-
 
 // THUNK
 
@@ -73,19 +60,18 @@ export  const getAuthUserData = () => (dispatch: Dispatch) => {
         .then(response => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data
-                dispatch(setAuthUserData({id, email, login}))
+                const isAuth = true
+                dispatch(setAuthUserDataAC({id, email, login, isAuth}))
             }
 
         })
 }
 
-export  const loginTC = (formData: formDataType) => (dispatch: Dispatch) => {
+export  const loginTC = (formData: formDataType) => (dispatch: any) => {
     authAPI.login(formData)
         .then(res => {
             if (res.data.resultCode === 0) {
-                const id = res.data.data.userId
-                const {email} = formData
-                dispatch(setAuthUserData({id, email}))
+                dispatch(getAuthUserData())
             }
 
         })
@@ -94,8 +80,12 @@ export  const loginTC = (formData: formDataType) => (dispatch: Dispatch) => {
 export  const logoutTC = () => (dispatch: Dispatch) => {
     authAPI.logout()
         .then(res => {
+            const id = null
+            const email = null
+            const login = null
+            const isAuth = false
             if (res.data.resultCode === 0) {
-                dispatch(deleteAuthUser())
+                dispatch(setAuthUserDataAC({id, email, login, isAuth}))
             }
 
         })
