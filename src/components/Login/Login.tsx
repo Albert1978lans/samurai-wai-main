@@ -6,6 +6,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
 import {Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators";
+import s from '../common/FormsControls/FormsControls.module.css'
 
 export type formDataType = {
     email: string
@@ -52,6 +53,7 @@ let LoginForm = (props: InjectedFormProps<formDataType>) => {
             <div>
                 <Field name="rememberMe" component="input" type="checkbox"/> remember me
             </div>
+            {props.error && <div className={s.formSummaryError}>{props.error}</div>}
             <button type="submit" disabled={pristine || submitting}>Submit</button>
             <button type="button" disabled={pristine || submitting} onClick={reset}>
                 Clear Values
