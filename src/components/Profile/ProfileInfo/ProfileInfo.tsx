@@ -20,12 +20,12 @@ const ProfileInfo = (props: ProfileInfoType) => {
 
     return (
         <div className={s.content}>
-            <div>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVI0Cqa5bYHtHDE5-fVDxVeGtZV6anu8qVzw&usqp=CAU" alt="image"/>
-            </div>
+            {/*<div>*/}
+            {/*    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVI0Cqa5bYHtHDE5-fVDxVeGtZV6anu8qVzw&usqp=CAU" alt="image"/>*/}
+            {/*</div>*/}
             <div className={s.descriptionBlock}>
                 <div className={s.img}>
-                    <img src={props.profile.photos.small} />
+                    <img alt={'userPhoto'} src={props.profile.photos.small} />
                 </div>
 
                 <ProfileStatus

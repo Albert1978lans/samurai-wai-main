@@ -39,14 +39,14 @@ type WithRouterType = RouteComponentProps<PathParamsType>
 class ProfileContainer extends React.Component<mapStateToPropsType & mapDispatchToPropsType & WithRouterType>  {
 
     componentDidMount() {
-        let userId = this.props.match.params.userId
+        let userId: number | null = +this.props.match.params.userId
 
         if (!userId) {
-            userId = '28504'
+            userId = this.props.authorizedUserId
         }
 
-        this.props.getProfile(+userId)
-        this.props.getUserStatus(+userId)
+        this.props.getProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
     render() {
@@ -62,19 +62,21 @@ class ProfileContainer extends React.Component<mapStateToPropsType & mapDispatch
 }
 
 type mapDispatchToPropsType = {
-    getProfile: (userId: number) => void
-    getUserStatus: (userId: number) => void
+    getProfile: (userId: number | null) => void
+    getUserStatus: (userId: number | null) => void
     updateStatus: (status: string) => void
 }
 type mapStateToPropsType = {
     profile: ProfileType
     status: string
+    authorizedUserId: number | null
 }
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
         profile: state.profileState.profile,
-        status: state.profileState.status
+        status: state.profileState.status,
+        authorizedUserId: state.auth.userId
     }
 }
 

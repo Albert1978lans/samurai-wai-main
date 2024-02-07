@@ -1,11 +1,10 @@
 import React from "react";
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
-import {initialStateType} from "../../redux/auth-reducer";
-import {mapDispatchToPropsType} from "./HeaderContainer";
+import {mapStateToPropsType, mapDispatchToPropsType} from "./HeaderContainer";
 
 
-type HeaderPropsType = initialStateType & mapDispatchToPropsType
+type HeaderPropsType = mapStateToPropsType & mapDispatchToPropsType
 
 const Header = (props: HeaderPropsType) => {
     return (

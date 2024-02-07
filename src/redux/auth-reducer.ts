@@ -6,8 +6,8 @@ import {stopSubmit} from "redux-form";
 const SET_USER_DATA = 'SET_USER_DATA'
 
 export type initialStateType = {
-    userId?: number | null
-    email?: string | null
+    userId: number | null
+    email: string | null
     login: string | null
     isAuth: boolean
 }
@@ -40,6 +40,7 @@ const authReducer = (state: initialStateType = initialState, action: ActionType)
             return {
                 ...state,
                 ...action.data,
+                userId: action.data.id
             }
         }
         default:
@@ -57,7 +58,7 @@ export const setAuthUserDataAC = (data: DataType): setAuthUserDataType => {
 // THUNK
 
 export  const getAuthUserData = () => (dispatch: Dispatch) => {
-    authAPI.me()
+    return authAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data
@@ -69,9 +70,6 @@ export  const getAuthUserData = () => (dispatch: Dispatch) => {
 }
 
 export  const loginTC = (formData: formDataType) => (dispatch: any) => {
-
-
-
 
     authAPI.login(formData)
         .then(res => {
