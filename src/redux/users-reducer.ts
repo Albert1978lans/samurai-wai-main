@@ -9,6 +9,7 @@ const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
+const FAKE = 'FAKE'
 
 export type UserType = {
     id: number
@@ -32,6 +33,7 @@ export type initialStateType = {
     totalUsersCount: number
     isFetching: boolean
     followingInProgress: Array<number>
+    fake: number
 }
 
 type followACType = {
@@ -68,6 +70,10 @@ type toggleFollowingProgressType = {
     userId: number
 }
 
+type fakeType = {
+    type: typeof FAKE
+}
+
 type ActionsType = followACType
     | unFollowACType
     | setUsersACType
@@ -75,6 +81,7 @@ type ActionsType = followACType
     | totalUsersCountACType
     | toggleIsFetchingACType
     | toggleFollowingProgressType
+    | fakeType
 
 const initialState:initialStateType = {
     users: [],
@@ -82,12 +89,19 @@ const initialState:initialStateType = {
     pageSize: 5,
     totalUsersCount: 100,
     isFetching: false,
-    followingInProgress: []
+    followingInProgress: [],
+    fake: 10
 }
 
 const usersReducer = (state: initialStateType = initialState, actions: ActionsType): initialStateType => {
 
     switch (actions.type) {
+
+        case FAKE:
+            return {
+                ...state,
+                fake: state.fake + 1
+            }
 
         case FOLLOW:
             return {

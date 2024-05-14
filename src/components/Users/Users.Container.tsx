@@ -2,8 +2,8 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {
     follow, requestUsers,
-    setCurrentPage,toggleFollowingProgress,
-    unFollow
+    setCurrentPage, toggleFollowingProgress,
+    unFollow, UserType
 } from "../../redux/users-reducer";
 import {initialStateType} from "../../redux/users-reducer";
 import React from "react";
@@ -16,7 +16,7 @@ import {
     getIsFetching,
     getPageSize,
     getTotalUserCount,
-    getUsers
+    getUsersNoReselect, getUsersWithReselect
 } from "../../redux/users-selectors";
 
 class UsersCompContainer extends React.Component<initialStateType & mapDispatchToPropsType> {
@@ -58,6 +58,15 @@ export type mapDispatchToPropsType = {
     getUsers: (currentPage: number, pageSize: number) => void
 }
 
+type mapStateToPropsType = {
+    users: Array<UserType>
+    currentPage: number
+    pageSize: number
+    totalUsersCount: number
+    isFetching: boolean
+    followingInProgress: Array<number>
+}
+
 // const mapStateToProps = (state: AppStateType): initialStateType => {
 //     return {
 //         users: state.usersState.users,
@@ -69,9 +78,11 @@ export type mapDispatchToPropsType = {
 //     }
 // }
 
-const mapStateToProps = (state: AppStateType): initialStateType => {
+const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+    console.log('userMapStateToProps')
     return {
-        users: getUsers(state),
+        // users: getUsersNoReselect(state),
+        users: getUsersWithReselect(state),
         currentPage: getCurrentPage(state),
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUserCount(state),

@@ -1,9 +1,19 @@
 import {AppStateType} from "./redux-store";
 import {UserType} from "./users-reducer";
+import {createSelector} from "reselect";
 
 export const getUsers = (state:AppStateType): Array<UserType> => {
     return state.usersState.users
 }
+
+export const getUsersNoReselect = (state:AppStateType): Array<UserType> => {
+    return getUsers(state).filter(u => true)
+}
+
+export const getUsersWithReselect = createSelector(getUsers, (users) => {
+    return users.filter(u => true)
+})
+
 
 export const getCurrentPage = (state:AppStateType): number => {
     return state.usersState.currentPage

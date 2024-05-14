@@ -8,6 +8,10 @@ import ReactDOM from "react-dom";
 // store.subscribe(renderTree)
 // renderTree()
 
+setInterval(() => {
+    store.dispatch({type: 'FAKE'})
+}, 1000)
+
 ReactDOM.render(
     <React.StrictMode>
 

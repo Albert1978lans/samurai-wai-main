@@ -4,6 +4,7 @@ import React from "react";
 import {UserType} from "../../redux/users-reducer";
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
+import {log} from "util";
 
 
 type UsersNewPropsType = {
@@ -42,7 +43,7 @@ export const Users = (props: UsersNewPropsType) => {
                 {p}
             </span>
     })
-
+    console.log('renderUser')
     return (
         <>
             {props.isFetching ? <Preloader/> : null}
