@@ -33,7 +33,6 @@ export type initialStateType = {
     totalUsersCount: number
     isFetching: boolean
     followingInProgress: Array<number>
-    fake: number
 }
 
 type followACType = {
@@ -89,19 +88,12 @@ const initialState:initialStateType = {
     pageSize: 5,
     totalUsersCount: 100,
     isFetching: false,
-    followingInProgress: [],
-    fake: 10
+    followingInProgress: []
 }
 
 const usersReducer = (state: initialStateType = initialState, actions: ActionsType): initialStateType => {
 
     switch (actions.type) {
-
-        case FAKE:
-            return {
-                ...state,
-                fake: state.fake + 1
-            }
 
         case FOLLOW:
             return {
