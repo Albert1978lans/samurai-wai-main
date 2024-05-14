@@ -1,10 +1,9 @@
-
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
 import {mapDispatchToPropsType, mapStateToPropsType} from "./MyPostsContainer";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {maxLength10, maxLengthCreators, required} from "../../../utils/validators";
+import {maxLength10, required} from "../../../utils/validators";
 import {Textarea} from "../../common/FormsControls/FormsControls";
 
 export type postFormDataType = {
@@ -13,8 +12,8 @@ export type postFormDataType = {
 
 type MyPostsPropsType = mapStateToPropsType & mapDispatchToPropsType
 
-export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
-
+export function MyPosts(props: MyPostsPropsType) {
+    console.log('render MyPosts')
     let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} count={p.likesCount}/>)
 
     const addPost = (newPost: postFormDataType) => {
@@ -27,8 +26,6 @@ export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
         </div>
     )
 }
-
-
 
 
 let MyPostsForm = (props: InjectedFormProps<postFormDataType>) => {
