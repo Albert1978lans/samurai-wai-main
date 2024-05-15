@@ -51,17 +51,5 @@
     text-align: center;
 }
 
-.pages {
-    margin-right: 5px;
-    padding: 3px;
-    cursor: pointer;
-    font-size: 20px;
-    color: dimgray;
-    font-weight: 500;
-}
 
-.pages.selected {
-
-    color: black;
-}
 

@@ -1,10 +1,10 @@
 import React from "react";
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {InjectedFormProps, reduxForm} from "redux-form";
 import {loginTC} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Redirect} from "react-router-dom";
-import {Input} from "../common/FormsControls/FormsControls";
+import {createField, Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators";
 import s from '../common/FormsControls/FormsControls.module.css'
 
@@ -42,17 +42,10 @@ let LoginForm = (props: InjectedFormProps<formDataType>) => {
     const { pristine, submitting, reset, handleSubmit } = props
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="email">Email</label>
-                <Field name="email" component={Input} validate={[required]} type="text"/>
-            </div>
-            <div>
-                <label htmlFor="password">Password</label>
-                <Field name="password" component={Input} validate={[required]} type="password"/>
-            </div>
-            <div>
-                <Field name="rememberMe" component="input" type="checkbox"/> remember me
-            </div>
+
+            {createField('Email', 'email', [required], Input, {type: 'text'})}
+            {createField('Password', 'password',  [required], Input, {type: 'password'})}
+            {createField( null, 'rememberMe',  [], Input, {type: 'checkbox'}, 'rememberMe')}
             {props.error && <div className={s.formSummaryError}>{props.error}</div>}
             <button type="submit" disabled={pristine || submitting}>Submit</button>
             <button type="button" disabled={pristine || submitting} onClick={reset}>

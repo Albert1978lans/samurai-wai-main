@@ -16,17 +16,19 @@ import {
     getIsFetching,
     getPageSize,
     getTotalUserCount,
-    getUsersNoReselect, getUsersWithReselect
+    getUsersWithReselect
 } from "../../redux/users-selectors";
 
 class UsersCompContainer extends React.Component<initialStateType & mapDispatchToPropsType> {
 
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        let {currentPage, pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize)
     }
     changeCurrentPage = (numberPage: number) => {
+        const {pageSize} = this.props
         this.props.setCurrentPage(numberPage)
-        this.props.getUsers(numberPage, this.props.pageSize)
+        this.props.getUsers(numberPage, pageSize)
     }
 
 
@@ -79,9 +81,7 @@ type mapStateToPropsType = {
 // }
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
-    console.log('userMapStateToProps')
     return {
-        // users: getUsersNoReselect(state),
         users: getUsersWithReselect(state),
         currentPage: getCurrentPage(state),
         pageSize: getPageSize(state),

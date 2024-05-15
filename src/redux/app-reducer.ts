@@ -42,7 +42,8 @@ export const initializeSuccess = (): initializeSuccessType => {
 // THUNK
 
 export  const initializeApp = () => (dispatch: any) => {
-   Promise.all([dispatch(getAuthUserData())])
+    const promise = dispatch(getAuthUserData())
+   Promise.all([promise])
        .then(() => {
            dispatch(initializeSuccess())
        })

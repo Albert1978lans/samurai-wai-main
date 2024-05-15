@@ -57,44 +57,41 @@ export const setAuthUserDataAC = (data: DataType): setAuthUserDataType => {
 
 // THUNK
 
-export  const getAuthUserData = () => (dispatch: Dispatch) => {
-    return authAPI.me()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                let {id, email, login} = response.data.data
-                const isAuth = true
-                dispatch(setAuthUserDataAC({id, email, login, isAuth}))
-            }
+export const getAuthUserData = () => async (dispatch: Dispatch) => {
+    const response = await authAPI.me()
 
-        })
+    if (response.data.resultCode === 0) {
+        let {id, email, login} = response.data.data
+        const isAuth = true
+        dispatch(setAuthUserDataAC({id, email, login, isAuth}))
+    }
+
+
 }
 
-export  const loginTC = (formData: formDataType) => (dispatch: any) => {
+export const loginTC = (formData: formDataType) => async (dispatch: any) => {
 
-    authAPI.login(formData)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(getAuthUserData())
-            } else {
-                const message = res.data.messages.length ? res.data.messages[0] : 'some error'
-                dispatch(stopSubmit('login', {_error: message}))
-            }
+    let res = await authAPI.login(formData)
+    if (res.data.resultCode === 0) {
+        dispatch(getAuthUserData())
+    } else {
+        const message = res.data.messages.length ? res.data.messages[0] : 'some error'
+        dispatch(stopSubmit('login', {_error: message}))
+    }
 
-        })
+
 }
 
-export  const logoutTC = () => (dispatch: Dispatch) => {
-    authAPI.logout()
-        .then(res => {
-            const id = null
-            const email = null
-            const login = null
-            const isAuth = false
-            if (res.data.resultCode === 0) {
-                dispatch(setAuthUserDataAC({id, email, login, isAuth}))
-            }
+export const logoutTC = () => async (dispatch: Dispatch) => {
+    let res = await authAPI.logout()
+    const id = null
+    const email = null
+    const login = null
+    const isAuth = false
+    if (res.data.resultCode === 0) {
+        dispatch(setAuthUserDataAC({id, email, login, isAuth}))
+    }
 
-        })
 }
 
 export default authReducer

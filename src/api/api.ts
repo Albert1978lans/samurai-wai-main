@@ -20,13 +20,13 @@ export const usersAPI = {
 
     unfollowUser: (userId: number) => {
         return (
-            instance.delete(`follow/${userId}`)
+            instance.delete<ResponseType>(`follow/${userId}`)
         )
     },
 
     followUser: (userId: number) => {
         return (
-            instance.post(`follow/${userId}`)
+            instance.post<ResponseType>(`follow/${userId}`)
         )
     },
 
@@ -77,6 +77,11 @@ export const authAPI = {
     }
 }
 
-
+export type ResponseType <T = {}>= {
+    data: T
+    fieldsErrors: Array<string>
+    messages: string[]
+    resultCode: number
+}
 
 
