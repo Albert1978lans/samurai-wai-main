@@ -1,5 +1,5 @@
 import s from "./Paginator.module.css";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 
 type PaginatorPropsType = {
@@ -12,24 +12,73 @@ type PaginatorPropsType = {
 
 export const Paginator = (props: PaginatorPropsType) => {
 
-    let pages: number[] = []
+    const [rightBorder, setRightBorder] = useState(10)
+    const [leftBorder, setLeftBorder] = useState(1)
 
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    let pagesCount: number[] = []
 
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
+    let count = Math.ceil(props.totalUsersCount / props.pageSize)
+
+
+    for (let i = leftBorder; i <= rightBorder; i++) {
+        pagesCount.push(i)
     }
 
-    const paginator = pages.map(p => {
+    const setPaginatorBorder = (p: number) => {
+        if (p > 4 && p <= count - 5) {
+            setLeftBorder(p-4)
+            setRightBorder(p+5)
+        } else if (p < 4) {
+            setLeftBorder(1)
+            setRightBorder(10)
+        } else if (p > count - 5) {
+            setLeftBorder(count-10)
+            setRightBorder(count)
+        }
+
+    }
+
+    useEffect(() => {
+        setPaginatorBorder(props.currentPage)
+    })
+
+    const paginator = pagesCount.map(p => {
         const finalSpanClass = s.pages + ' ' + (props.currentPage === p ? s.selected : '')
         return <span
             key={p}
             className={finalSpanClass}
-            onClick={() => props.changeCurrentPage(p)}
+            onClick={() => {
+                props.changeCurrentPage(p)
+                setPaginatorBorder(p)
+            }}
         >
         {p}
             </span>
     })
 
-    return <div>{paginator}</div>
+    const buttonOnClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+
+        if (e.currentTarget.name === 'start') {
+            setLeftBorder(1)
+            setRightBorder(10)
+            props.changeCurrentPage(1)
+        } else {
+            setLeftBorder(count-10)
+            setRightBorder(count)
+            props.changeCurrentPage(count)
+        }
+    }
+
+
+    return <div className={s.pgn}>
+        <button name={'start'} onClick={buttonOnClick}>в начало списка</button>
+        <div className={s.numbers}>
+            <div className={s.paginator}>
+                {leftBorder > 1 ? '...': ''}
+                {paginator}
+                {rightBorder < count ? '...': ''}
+            </div>
+        </div>
+        <button name={'finish'} onClick={buttonOnClick}>в конец списка</button>
+    </div>
 }

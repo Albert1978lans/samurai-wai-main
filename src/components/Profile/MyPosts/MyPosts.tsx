@@ -13,7 +13,7 @@ export type postFormDataType = {
 type MyPostsPropsType = mapStateToPropsType & mapDispatchToPropsType
 
 export function MyPosts(props: MyPostsPropsType) {
-    console.log('render MyPosts')
+
     let postsElements = props.posts.map(p => <Post key={p.id} message={p.message} count={p.likesCount}/>)
 
     const addPost = (newPost: postFormDataType) => {

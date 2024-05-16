@@ -23,7 +23,7 @@ type UsersNewPropsType = {
 export const Users = (props: UsersNewPropsType) => {
 
     return (
-        <>
+        <div>
             {props.isFetching ? <Preloader/> : null}
 
             <div className={s.listPages}>
@@ -46,6 +46,6 @@ export const Users = (props: UsersNewPropsType) => {
                     />
                 )
             })}
-        </>
+        </div>
     )
 }

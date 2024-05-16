@@ -1,5 +1,7 @@
 .pages {
-    margin-right: 5px;
+    display: inline-block;
+    width: 6%;
+    margin:  0 5px 0 5px;
     padding: 3px;
     cursor: pointer;
     font-size: 20px;
@@ -10,4 +12,17 @@
 .pages.selected {
 
     color: black;
+}
+.paginator {
+    width: 100%;
+}
+.pgn {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+.numbers {
+    width: 70%;
+    display: flex;
+    justify-content: center;
 }

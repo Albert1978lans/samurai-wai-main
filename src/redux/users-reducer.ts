@@ -48,6 +48,7 @@ type unFollowACType = {
 type setUsersACType = {
     type: typeof SET_USERS,
     newUsers: Array<UserType>
+    totalCount: number
 }
 
 type setCurrentPageACType = {
@@ -114,7 +115,8 @@ const usersReducer = (state: initialStateType = initialState, actions: ActionsTy
         case SET_USERS:
             return {
                 ...state,
-                users: actions.newUsers
+                users: actions.newUsers,
+                totalUsersCount: actions.totalCount
             }
         case SET_CURRENT_PAGE:
             return {
@@ -159,10 +161,11 @@ export const unFollowSuccess = (userId: number): unFollowACType => {
     }
 }
 
-export const setUsers = (newUsers: Array<UserType>): setUsersACType => {
+export const setUsers = (newUsers: Array<UserType>, totalCount: number): setUsersACType => {
     return {
         type: SET_USERS,
-        newUsers: newUsers
+        newUsers: newUsers,
+        totalCount
     }
 }
 
@@ -205,7 +208,7 @@ export const requestUsers = (currentPage: number, pageSize: number) => {
         dispatch(toggleIsFetching(true))
         let data = await usersAPI.getUsers(currentPage, pageSize)
         dispatch(toggleIsFetching(false))
-        dispatch(setUsers(data.items))
+        dispatch(setUsers(data.items, data.totalCount))
     }
 }
 
