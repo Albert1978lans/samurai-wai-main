@@ -4,7 +4,7 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {ProfileContainerType} from "./ProfileContainer";
 
-type ProfilePropsType = ProfileContainerType
+type ProfilePropsType = ProfileContainerType & {owner: boolean}
 
 const Profile = (props: ProfilePropsType) => {
 
@@ -12,9 +12,12 @@ const Profile = (props: ProfilePropsType) => {
 
         <div className={s.content}>
             <ProfileInfo
+                owner={props.owner}
                 profile={props.profile}
                 status={props.status}
                 updateStatus={props.updateStatus}
+                savePhotos={props.savePhotos}
+                saveProfile={props.saveProfile}
             />
             <MyPostsContainer/>
         </div>

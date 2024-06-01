@@ -40,9 +40,9 @@ type addMessageACType = {
     newMessage: string
 }
 
-type ActionsTypes = addMessageACType
+export type DialogsActionsTypes = addMessageACType
 
-const dialogsReducer = (state: initialStateType = initialState, actions: ActionsTypes): initialStateType => {
+const dialogsReducer = (state: initialStateType = initialState, actions: DialogsActionsTypes): initialStateType => {
 
     switch (actions.type) {
 

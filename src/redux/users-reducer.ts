@@ -76,7 +76,7 @@ type fakeType = {
     type: typeof FAKE
 }
 
-type ActionsType = followACType
+export type UsersActionsType = followACType
     | unFollowACType
     | setUsersACType
     | setCurrentPageACType
@@ -94,7 +94,7 @@ const initialState: initialStateType = {
     followingInProgress: []
 }
 
-const usersReducer = (state: initialStateType = initialState, actions: ActionsType): initialStateType => {
+const usersReducer = (state: initialStateType = initialState, actions: UsersActionsType): initialStateType => {
 
     switch (actions.type) {
 

@@ -1,0 +1,10 @@
+.field {
+    display: flex;
+}
+.field b {
+    margin-right: 5px;
+}
+
+.contact {
+    padding-left: 15px;
+}

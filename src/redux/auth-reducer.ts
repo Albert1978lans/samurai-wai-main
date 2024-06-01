@@ -31,9 +31,9 @@ type setAuthUserDataType = {
     data: DataType
 }
 
-type ActionType = setAuthUserDataType
+export type AuthActionType = setAuthUserDataType
 
-const authReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
+const authReducer = (state: initialStateType = initialState, action: AuthActionType): initialStateType => {
 
     switch (action.type) {
         case "SET_USER_DATA": {

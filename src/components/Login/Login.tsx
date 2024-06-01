@@ -20,7 +20,7 @@ type LoginPropsType = mapDispatchToPropsType & mapStateToPropsType
 const Login = (props: LoginPropsType) => {
 
     const onSubmit = (formData: formDataType) => {
-        console.log(formData)
+        // console.log(formData)
         props.loginTC(formData)
     }
 
