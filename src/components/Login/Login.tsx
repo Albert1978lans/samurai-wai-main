@@ -15,6 +15,10 @@ export type formDataType = {
     captcha?: string
 }
 
+type formDataPropsType = {
+    captchaUrl: string | null
+}
+
 type LoginPropsType = mapDispatchToPropsType & mapStateToPropsType
 
 const Login = (props: LoginPropsType) => {
@@ -31,15 +35,16 @@ const Login = (props: LoginPropsType) => {
     return (
         <div>
             <h1>LOGIN</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
         </div>
 
     )
 
 }
 
-let LoginForm = (props: InjectedFormProps<formDataType>) => {
-    const { pristine, submitting, reset, handleSubmit } = props
+let LoginForm = (props: InjectedFormProps<formDataType, formDataPropsType> & formDataPropsType) => {
+    const { pristine, submitting, reset, handleSubmit, captchaUrl} = props
+    // debugger
     return (
         <form onSubmit={handleSubmit}>
 
@@ -47,6 +52,8 @@ let LoginForm = (props: InjectedFormProps<formDataType>) => {
             {createField('Password', 'password',  [required], Input, {type: 'password'})}
             {createField( null, 'rememberMe',  [], Input, {type: 'checkbox'}, 'rememberMe')}
             {props.error && <div className={s.formSummaryError}>{props.error}</div>}
+            {captchaUrl && <img alt='captcha' src={captchaUrl}/> }
+            {captchaUrl && createField('Captcha', 'captcha', [required], Input, {type: 'text'})}
             <button type="submit" disabled={pristine || submitting}>Submit</button>
             <button type="button" disabled={pristine || submitting} onClick={reset}>
                 Clear Values
@@ -56,7 +63,7 @@ let LoginForm = (props: InjectedFormProps<formDataType>) => {
 }
 
 
-const LoginReduxForm = reduxForm<formDataType>({
+const LoginReduxForm = reduxForm<formDataType, formDataPropsType>({
     form: 'login'
 })(LoginForm)
 
@@ -66,11 +73,13 @@ type mapDispatchToPropsType = {
 
 type mapStateToPropsType = {
     isAuth: boolean
+    captchaUrl: string | null
 }
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        captchaUrl: state.auth.captchaUrl
     }
 }
 

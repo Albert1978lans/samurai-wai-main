@@ -1,15 +1,17 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../api/api";
+import {authAPI, securityAPI} from "../api/api";
 import {formDataType} from "../components/Login/Login";
 import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET_USER_DATA'
+const SET_CAPTCHA_URL_SUCCESS = 'SET_CAPTCHA_URL_SUCCESS'
 
 export type initialStateType = {
     userId: number | null
     email: string | null
     login: string | null
     isAuth: boolean
+    captchaUrl: string | null
 }
 
 const initialState: initialStateType = {
@@ -17,6 +19,7 @@ const initialState: initialStateType = {
     email: null,
     login: null,
     isAuth: false,
+    captchaUrl: null
 }
 
 export type DataType = {
@@ -30,8 +33,14 @@ type setAuthUserDataType = {
     type: typeof SET_USER_DATA
     data: DataType
 }
+type setCaptchaUrlACType = {
+    type: typeof SET_CAPTCHA_URL_SUCCESS
+    payload: {
+        captchaUrl: string | null
+    }
+}
 
-export type AuthActionType = setAuthUserDataType
+export type AuthActionType = setAuthUserDataType | setCaptchaUrlACType
 
 const authReducer = (state: initialStateType = initialState, action: AuthActionType): initialStateType => {
 
@@ -43,6 +52,12 @@ const authReducer = (state: initialStateType = initialState, action: AuthActionT
                 userId: action.data.id
             }
         }
+        case "SET_CAPTCHA_URL_SUCCESS": {
+            return {
+                ...state,
+                ...action.payload
+            }
+        }
         default:
             return state
     }
@@ -52,6 +67,13 @@ export const setAuthUserDataAC = (data: DataType): setAuthUserDataType => {
     return {
         type: SET_USER_DATA,
         data
+    } as const
+}
+
+export const setCaptchaUrlAC = (url: string | null): setCaptchaUrlACType => {
+    return {
+        type: SET_CAPTCHA_URL_SUCCESS,
+        payload: {captchaUrl: url}
     } as const
 }
 
@@ -77,6 +99,11 @@ export const loginTC = (formData: formDataType) => async (dispatch: any) => {
     } else {
         const message = res.data.messages.length ? res.data.messages[0] : 'some error'
         dispatch(stopSubmit('login', {_error: message}))
+        if (res.data.resultCode === 10) {
+
+            const response = await securityAPI.getCaptchaUrl()
+            dispatch(setCaptchaUrlAC(response.data.url))
+        }
     }
 
 
@@ -90,6 +117,7 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
     const isAuth = false
     if (res.data.resultCode === 0) {
         dispatch(setAuthUserDataAC({id, email, login, isAuth}))
+        dispatch(setCaptchaUrlAC(null))
     }
 
 }
