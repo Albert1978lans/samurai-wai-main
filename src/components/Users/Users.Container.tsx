@@ -1,11 +1,10 @@
 import {connect} from "react-redux";
-import {AppStateType, RootState} from "../../redux/redux-store";
+import {RootState} from "../../redux/redux-store";
 import {
     follow, requestUsers,
-    setCurrentPage, toggleFollowingProgress,
-    unFollow, UserType
+    unFollow, UserType, actions
 } from "../../redux/users-reducer";
-import {initialStateType} from "../../redux/users-reducer";
+
 import React from "react";
 import {Users} from "./Users";
 import {withAuthRedirect} from "../../hok/withAuthRedirect";
@@ -18,6 +17,8 @@ import {
     getTotalUserCount,
     getUsersWithReselect
 } from "../../redux/users-selectors";
+
+const {setCurrentPage, toggleFollowingProgress} = actions
 
 export type mapDispatchToPropsType = {
     follow: (id: number) => void
@@ -76,18 +77,6 @@ class UsersCompContainer extends React.Component<PropsType> {
     }
 }
 
-
-
-// const mapStateToProps = (state: AppStateType): initialStateType => {
-//     return {
-//         users: state.usersState.users,
-//         currentPage: state.usersState.currentPage,
-//         pageSize: state.usersState.pageSize,
-//         totalUsersCount: state.usersState.totalUsersCount,
-//         isFetching: state.usersState.isFetching,
-//         followingInProgress: state.usersState.followingInProgress
-//     }
-// }
 
 const mapStateToProps = (state: RootState): mapStateToPropsType => {
     return {
