@@ -36,6 +36,7 @@ export type ActionsType = ProfileActionsTypes
     | AuthActionType
     |AppActionType
 
-// window.store=store
+//@ts-ignore
+window.store=store
 
 export default store

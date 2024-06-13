@@ -2,6 +2,7 @@ import {ResponseType, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {AxiosResponse} from "axios";
 import {updateObjectInArrayMy} from "../utils/object-helpers";
+import {AppThunk} from "./redux-store";
 
 
 const FOLLOW = 'FOLLOW'
@@ -201,9 +202,9 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number): to
 
 // THUNK
 
-export const requestUsers = (currentPage: number, pageSize: number) => {
+export const requestUsers = (currentPage: number, pageSize: number): AppThunk => {
 
-    return async (dispatch: Dispatch) => {
+    return async (dispatch) => {
 
         dispatch(toggleIsFetching(true))
         let data = await usersAPI.getUsers(currentPage, pageSize)
@@ -224,7 +225,7 @@ const followUnfollowFlow = async (dispatch: Dispatch,
     dispatch(toggleFollowingProgress(false, userId))
 }
 
-export const unFollow = (userId: number) => async (dispatch: Dispatch) => {
+export const unFollow = (userId: number): AppThunk => async (dispatch) => {
 
     followUnfollowFlow(dispatch, userId, usersAPI.unfollowUser.bind(usersAPI), unFollowSuccess)
     // dispatch(toggleFollowingProgress(true, userId))
@@ -238,7 +239,7 @@ export const unFollow = (userId: number) => async (dispatch: Dispatch) => {
 }
 
 
-export const follow = (userId: number) => async (dispatch: Dispatch) => {
+export const follow = (userId: number): AppThunk => async (dispatch) => {
 
     followUnfollowFlow(dispatch, userId, usersAPI.followUser.bind(usersAPI), followSuccess)
     // dispatch(toggleFollowingProgress(true, userId))

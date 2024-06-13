@@ -2,6 +2,7 @@ import {Dispatch} from "redux";
 import {authAPI, securityAPI} from "../api/api";
 import {formDataType} from "../components/Login/Login";
 import {stopSubmit} from "redux-form";
+import {AppThunk} from "./redux-store";
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const SET_CAPTCHA_URL_SUCCESS = 'SET_CAPTCHA_URL_SUCCESS'
@@ -79,7 +80,7 @@ export const setCaptchaUrlAC = (url: string | null): setCaptchaUrlACType => {
 
 // THUNK
 
-export const getAuthUserData = () => async (dispatch: Dispatch) => {
+export const getAuthUserData = (): AppThunk => async (dispatch) => {
     const response = await authAPI.me()
 
     if (response.data.resultCode === 0) {
@@ -91,7 +92,7 @@ export const getAuthUserData = () => async (dispatch: Dispatch) => {
 
 }
 
-export const loginTC = (formData: formDataType) => async (dispatch: any) => {
+export const loginTC = (formData: formDataType): AppThunk => async (dispatch) => {
 
     let res = await authAPI.login(formData)
     if (res.data.resultCode === 0) {
@@ -109,7 +110,7 @@ export const loginTC = (formData: formDataType) => async (dispatch: any) => {
 
 }
 
-export const logoutTC = () => async (dispatch: Dispatch) => {
+export const logoutTC = (): AppThunk => async (dispatch) => {
     let res = await authAPI.logout()
     const id = null
     const email = null

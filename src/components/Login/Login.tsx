@@ -15,6 +15,8 @@ export type formDataType = {
     captcha?: string
 }
 
+type FormDataTypeKeys = keyof formDataType
+
 type formDataPropsType = {
     captchaUrl: string | null
 }
@@ -48,12 +50,12 @@ let LoginForm = (props: InjectedFormProps<formDataType, formDataPropsType> & for
     return (
         <form onSubmit={handleSubmit}>
 
-            {createField('Email', 'email', [required], Input, {type: 'text'})}
-            {createField('Password', 'password',  [required], Input, {type: 'password'})}
-            {createField( null, 'rememberMe',  [], Input, {type: 'checkbox'}, 'rememberMe')}
+            {createField<FormDataTypeKeys>('Email', 'email', [required], Input, {type: 'text'})}
+            {createField<FormDataTypeKeys>('Password', 'password',  [required], Input, {type: 'password'})}
+            {createField<FormDataTypeKeys>( null, 'rememberMe',  [], Input, {type: 'checkbox'}, 'rememberMe')}
             {props.error && <div className={s.formSummaryError}>{props.error}</div>}
             {captchaUrl && <img alt='captcha' src={captchaUrl}/> }
-            {captchaUrl && createField('Captcha', 'captcha', [required], Input, {type: 'text'})}
+            {captchaUrl && createField<FormDataTypeKeys>('Captcha', 'captcha', [required], Input, {type: 'text'})}
             <button type="submit" disabled={pristine || submitting}>Submit</button>
             <button type="button" disabled={pristine || submitting} onClick={reset}>
                 Clear Values

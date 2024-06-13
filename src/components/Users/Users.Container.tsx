@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateType, RootState} from "../../redux/redux-store";
 import {
     follow, requestUsers,
     setCurrentPage, toggleFollowingProgress,
@@ -19,39 +19,6 @@ import {
     getUsersWithReselect
 } from "../../redux/users-selectors";
 
-class UsersCompContainer extends React.Component<initialStateType & mapDispatchToPropsType> {
-
-    componentDidMount() {
-        let {currentPage, pageSize} = this.props
-        this.props.getUsers(currentPage, pageSize)
-    }
-    changeCurrentPage = (numberPage: number) => {
-        const {pageSize} = this.props
-        this.props.setCurrentPage(numberPage)
-        this.props.getUsers(numberPage, pageSize)
-    }
-
-
-    render() {
-            return (
-                <>
-                    <Users
-                        totalUsersCount = {this.props.totalUsersCount}
-                        pageSize = {this.props.pageSize}
-                        currentPage = {this.props.currentPage}
-                        changeCurrentPage = {this.changeCurrentPage}
-                        users = {this.props.users}
-                        isFetching={this.props.isFetching}
-                        followingInProgress={this.props.followingInProgress}
-                        toggleFollowingProgress={this.props.toggleFollowingProgress}
-                        follow={this.props.follow}
-                        unfollow={this.props.unFollow}
-                    />
-                </>
-                )
-    }
-}
-
 export type mapDispatchToPropsType = {
     follow: (id: number) => void
     unFollow: (id: number) => void
@@ -69,6 +36,48 @@ type mapStateToPropsType = {
     followingInProgress: Array<number>
 }
 
+type OwnPropsType = {
+    pageTitle: string
+}
+
+type PropsType = mapStateToPropsType & mapDispatchToPropsType & OwnPropsType
+
+class UsersCompContainer extends React.Component<PropsType> {
+
+    componentDidMount() {
+        let {currentPage, pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize)
+    }
+    changeCurrentPage = (numberPage: number) => {
+        const {pageSize} = this.props
+        this.props.setCurrentPage(numberPage)
+        this.props.getUsers(numberPage, pageSize)
+    }
+
+
+    render() {
+            return (
+                <>
+                    <h1>{this.props.pageTitle}</h1>
+                    <Users
+                        totalUsersCount = {this.props.totalUsersCount}
+                        pageSize = {this.props.pageSize}
+                        currentPage = {this.props.currentPage}
+                        changeCurrentPage = {this.changeCurrentPage}
+                        users = {this.props.users}
+                        isFetching={this.props.isFetching}
+                        followingInProgress={this.props.followingInProgress}
+                        toggleFollowingProgress={this.props.toggleFollowingProgress}
+                        follow={this.props.follow}
+                        unfollow={this.props.unFollow}
+                    />
+                </>
+                )
+    }
+}
+
+
+
 // const mapStateToProps = (state: AppStateType): initialStateType => {
 //     return {
 //         users: state.usersState.users,
@@ -80,7 +89,7 @@ type mapStateToPropsType = {
 //     }
 // }
 
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
+const mapStateToProps = (state: RootState): mapStateToPropsType => {
     return {
         users: getUsersWithReselect(state),
         currentPage: getCurrentPage(state),
@@ -93,7 +102,8 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
 
 export default compose<React.ComponentType>(
     withAuthRedirect,
-    connect(mapStateToProps, {
+    // <TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState>
+    connect<mapStateToPropsType, mapDispatchToPropsType, OwnPropsType, RootState>(mapStateToProps, {
         follow,
         unFollow,
         setCurrentPage,
@@ -101,4 +111,6 @@ export default compose<React.ComponentType>(
         getUsers: requestUsers
     })
 )(UsersCompContainer)
+
+
 

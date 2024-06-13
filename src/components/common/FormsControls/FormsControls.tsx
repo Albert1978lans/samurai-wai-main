@@ -1,19 +1,19 @@
 import s from './FormsControls.module.css'
-import React from "react";
-import {Field} from "redux-form";
+import React from "react"
+import {Field} from "redux-form"
+import {WrappedFieldProps} from "redux-form/lib/Field"
 
-type FormControlPropsType = {
-    input: object
-    meta: {
-        touched: string
-        error: string
-    }
-    elementType: string
-}
-type FormControlType = (props: FormControlPropsType) => React.ReactNode
 
-const FormControl1 = ({input, meta: {touched, error}, elementType, ...props}: any) => {
-    const element = React.createElement(elementType, {...input, ...props})
+type OwnPropsType = {elementType: string}
+// interface FormControlPropsType extends WrappedFieldProps {
+//     elementType: string
+// }
+
+type FormControlPropsType = WrappedFieldProps & OwnPropsType
+
+const FormControl: React.FC<FormControlPropsType> =
+    ({elementType, input, meta: {touched, error}, ...restProps}) => {
+    const element = React.createElement(elementType, {...input, ...restProps})
     const hasError = touched && error
     return (
         <div className={s.formControl + ' ' + (hasError ? s.error : '')}>
@@ -24,17 +24,17 @@ const FormControl1 = ({input, meta: {touched, error}, elementType, ...props}: an
         </div>
     )
 }
+// WrappedFieldProps
+export const Textarea: React.FC<WrappedFieldProps> = (props) => <FormControl elementType={'textarea'} {...props} />
 
-export const Textarea = (props: any) => <FormControl1 elementType={'textarea'} {...props} />
+export const Input: React.FC<WrappedFieldProps> = (props) => <FormControl elementType={'input'} {...props} />
 
-export const Input = (props: any) => <FormControl1 elementType={'input'} {...props} />
-
-export const createField = (placeholder: string | null,
-                            name: string,
+export function createField<KeysType extends string>(placeholder: string | null,
+                            name: KeysType,
                             validators: Array<(values: string) => string | undefined> | [],
-                            component: React.ComponentType,
+                            component: React.FC<WrappedFieldProps>,
                             props: any = {},
-                            text = '') => {
+                            text = '')  {
     return <div>
         {/*<label htmlFor={name}>{name}</label>*/}
         <Field
@@ -47,3 +47,7 @@ export const createField = (placeholder: string | null,
     </div>
 }
 
+// Argument of type '(props: FormControlPropsType) => JSX.Element' is not assignable to parameter of type 'string | ComponentType<{}> | FC<{}>'.
+// Type '(props: FormControlPropsType) => JSX.Element' is not assignable to type 'FunctionComponent<{}>'.
+// Types of parameters 'props' and 'props' are incompatible.
+// Type '{ children?: ReactNode; }' is missing the following properties from type 'FormControlPropsType': input, meta, props
