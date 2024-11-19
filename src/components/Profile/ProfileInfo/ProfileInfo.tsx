@@ -1,10 +1,10 @@
 import React, {ChangeEvent, useState} from "react";
 import s from './ProfileInfo.module.css'
-import {ProfileType} from "../ProfileContainer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/User.png";
 import ProfileDataReduxForm from "./ProfileDataForm";
+import {ProfileType} from "../../../types/types";
 
 type ProfileInfoType = {
     owner: boolean

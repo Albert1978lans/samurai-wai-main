@@ -1,36 +1,15 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getProfile, getUserStatus, updateStatus, savePhotos, saveProfile} from "../../redux/profile-reducer";
+import {getProfile, getUserStatus, savePhotos, saveProfile, updateStatus} from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
 import {withAuthRedirect} from "../../hok/withAuthRedirect";
 import {compose} from "redux";
+import {ProfileType} from "../../types/types";
 
 export type ProfileContainerType = mapStateToPropsType & mapDispatchToPropsType
-
-export type ProfileType = {
-    userId: number
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    contacts: {
-        github: string
-        vk: string
-        facebook: string
-        instagram: string
-        twitter: string
-        website: string
-        youtube: string
-        mainLink: string
-    }
-    aboutMe: string
-    photos: {
-        small: string
-        large: string
-    }
-}
 
 type PathParamsType = {
     userId: string

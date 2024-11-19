@@ -1,7 +1,5 @@
-import {addPostAC} from "./profile-reducer";
-import dialogsReducer, {
-    addMessageAC
-} from "./dialogs-reducer";
+import {actions as profileActions} from "./profile-reducer";
+import dialogsReducer, {actions as dialogsActions} from "./dialogs-reducer";
 
 export type PostItemType = {
     id: number,
@@ -40,8 +38,8 @@ export type StoreType = {
     dispatch: (action: ActionsTypes)=>void
 }
 
-export type ActionsTypes = ReturnType<typeof addPostAC>
-    | ReturnType<typeof addMessageAC>
+export type ActionsTypes = ReturnType<typeof profileActions.addPostAC>
+    | ReturnType<typeof dialogsActions.addMessageAC>
 
 const store: StoreType = {
     _state: {

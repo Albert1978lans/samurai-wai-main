@@ -17,7 +17,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     const sandMessage =(data: messageFormDataType) => {
         props.sendMessage(data.newDialogsMessage)
     }
-    console.log('render DIALOGS')
+
     return (
         <div className={s.dialogs}>
 
